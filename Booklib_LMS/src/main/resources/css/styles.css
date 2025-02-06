@@ -1,0 +1,18 @@
+#btnUserForm,#btnBookForm,#btnBorrowForm,#btnFineForm,#btnReportForm{
+    -fx-background-color: #5A5757; /* Dark gray background */
+    -fx-text-fill: white; /* White text */
+    -fx-font-size: 14px; /* Adjust font size */
+    -fx-background-radius: 30px; /* Rounded corners */
+    -fx-border-radius: 30px; /* Ensure border matches the background */
+    -fx-border-color: transparent; /* No border */
+    -fx-padding: 10px 20px; /* Add padding */
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 10, 0, 0, 0); /* Add shadow */
+    -fx-font-family: "Arial"; /* Font family */
+    -fx-font-weight: bold; /* Bold text */
+}
+
+#btnUserForm:hover,#btnBookForm:hover,#btnBorrowForm:hover,#btnFineForm:hover,#btnReportForm:hover{
+    -fx-background-color: #4abd46; /* Slightly darker gray on hover */
+
+
+}
