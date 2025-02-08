@@ -67,7 +67,16 @@ public class DashboardFormController {
     }
 
     @FXML
-    void btnBookOnAction(ActionEvent event) {
+    void btnBookOnAction(ActionEvent event) throws IOException {
+
+        URL resource = this.getClass().getResource("/view/bookform.fxml");
+
+        assert resource != null;
+
+        Parent load = FXMLLoader.load(resource);
+
+        dashbordSubAnchor.getChildren().clear();
+        dashbordSubAnchor.getChildren().add(load);
 
     }
 
