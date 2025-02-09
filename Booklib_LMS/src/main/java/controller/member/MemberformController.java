@@ -66,6 +66,8 @@ public class MemberformController {
         tblUserview.setOnMouseClicked(this::tblUserviewOnMouseClicked);
     }
 
+
+
     @FXML
     void btnAddMemberOnAction(ActionEvent event) {
         if (txtId.getText().isEmpty() || txtName.getText().isEmpty() || txtAddress.getText().isEmpty()
@@ -74,10 +76,15 @@ public class MemberformController {
             return;
         }
 
-        Member member = new Member(txtId.getText(), txtName.getText(), txtAddress.getText(),
-                txtEmail.getText(), txtContact.getText());
+        Member member = new Member( txtId.getText(),
+                                    txtName.getText(),
+                                    txtAddress.getText(),
+                                    txtEmail.getText(),
+                                    txtContact.getText()
+        );
 
         boolean success;
+
         if (btnAddMember.getText().equals("Update Member") ) {
             success = memberController.updateMember(member);
         } else {

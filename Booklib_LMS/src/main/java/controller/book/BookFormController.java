@@ -1,7 +1,9 @@
 package controller.book;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
+import controller.author.AuthorController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,7 +20,7 @@ public class BookFormController {
     private JFXCheckBox chkAvailability;
 
     @FXML
-    private JFXComboBox<?> cmbAuthor;
+    private JFXComboBox<String> cmbAuthor;
 
     @FXML
     private JFXComboBox<?> cmbCategory;
@@ -56,10 +58,28 @@ public class BookFormController {
     @FXML
     private TextField txtName;
 
+
+    @FXML
+    private JFXButton btnAdd;
+
+    @FXML
+    private JFXButton btnClear;
+
+    @FXML
+    private JFXButton btnDelete;
+
+    public void initialize(){
+        loadAuthorNames();
+    }
+
+    private void loadAuthorNames() {
+        cmbAuthor.setItems(new AuthorController().getAuthorNames());
+    }
+
     @FXML
     void btnAddAuthorOnAction(ActionEvent event) throws IOException {
         Stage stage = new Stage();
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/autherform.fxml"))));
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/authorform.fxml"))));
         stage.show();
 
 
@@ -79,5 +99,7 @@ public class BookFormController {
     void chkAvailabilityOnAction(ActionEvent event) {
 
     }
+
+
 
 }
