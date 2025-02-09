@@ -39,12 +39,12 @@
             </AnchorPane>
         </content>
       </ScrollPane>
-      <Button fx:id="btnAdd" layoutX="418.0" layoutY="88.0" mnemonicParsing="false" onAction="#btnAddOnAction" prefHeight="26.0" prefWidth="47.0" style="-fx-background-color: #00ff00;" text="Add">
+      <Button fx:id="btnAdd" layoutX="414.0" layoutY="89.0" mnemonicParsing="false" onAction="#btnAddOnAction" prefHeight="26.0" prefWidth="57.0" style="-fx-background-color: #00ff00;" text="Add">
          <font>
             <Font size="11.0" />
          </font>
       </Button>
-      <Button fx:id="btnDelete" layoutX="476.0" layoutY="88.0" mnemonicParsing="false" onAction="#btnDeleteOnAction" prefHeight="26.0" prefWidth="47.0" style="-fx-background-color: #ff0000;" text="Delete">
+      <Button fx:id="btnDelete" layoutX="480.0" layoutY="88.0" mnemonicParsing="false" onAction="#btnDeleteOnAction" prefHeight="26.0" prefWidth="47.0" style="-fx-background-color: #ff0000;" text="Delete">
          <font>
             <Font size="11.0" />
          </font>
@@ -54,6 +54,8 @@
             <Font name="Arnold 2.1" size="25.0" />
          </font>
       </Label>
-      <JFXButton fx:id="btnClear" layoutX="533.0" layoutY="88.0" onAction="#btnClearOnAction" prefHeight="26.0" prefWidth="47.0" style="-fx-border-color: black;" text="Clear" />
+      <JFXButton fx:id="btnClear" layoutX="537.0" layoutY="88.0" onAction="#btnClearOnAction" prefHeight="26.0" prefWidth="47.0" style="-fx-border-color: black;" text="Clear" />
+      <JFXButton fx:id="btnSearch" layoutX="564.0" layoutY="23.0" onAction="#btnSearchOnAction" prefHeight="27.0" prefWidth="34.0" text="🔍" />
+      <TextField fx:id="txtSearch" layoutX="435.0" layoutY="23.0" opacity="0.71" prefHeight="27.0" prefWidth="134.0" promptText="Search..." style="-fx-border-color: black; -fx-border-radius: 50px;" />
    </children>
 </AnchorPane>

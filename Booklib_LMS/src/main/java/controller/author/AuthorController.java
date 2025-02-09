@@ -98,6 +98,7 @@ public class AuthorController implements AuthorService{
             throw new RuntimeException(e);
         }
     }
+
     public ObservableList<String> getAuthorNames(){
         ObservableList<String> authorNameList = FXCollections.observableArrayList();
         List<Author> authorList = getAll();

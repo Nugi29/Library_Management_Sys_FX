@@ -12,10 +12,18 @@ import javafx.scene.input.MouseEvent;
 import model.Author;
 import model.Member;
 
+import java.util.List;
+
 public class AuthorFormController {
 
     @FXML
     public TableView tblAuthorview;
+
+    @FXML
+    public TextField txtSearch;
+
+    @FXML
+    public JFXButton btnSearch;
 
     @FXML
     private Button btnAdd;
@@ -95,6 +103,21 @@ public class AuthorFormController {
 
     }
 
+    private void searchAuthor(){
+        String searchText = txtSearch.getText().trim();
+
+        List<Author> authors = authorController.getAll();
+        ObservableList<Author> filteredList = FXCollections.observableArrayList();
+
+        for (Author author : authors) {
+            if (author.getId().toUpperCase().contains(searchText.toUpperCase()) ||
+                    author.getName().toLowerCase().contains(searchText.toLowerCase())) {
+                filteredList.add(author);
+            }
+        }
+        tblAuthorview.setItems(filteredList);
+    }
+
     private void clearFields() {
         txtId.clear();
         txtName.clear();
@@ -121,6 +144,7 @@ public class AuthorFormController {
     void btnClearOnAction(ActionEvent event) {
         clearFields();
 
+
     }
 
     @FXML
@@ -140,5 +164,8 @@ public class AuthorFormController {
             showAlert(Alert.AlertType.ERROR, "Operation failed. Try again.");
         }
     }
-
+    @FXML
+    public void btnSearchOnAction(ActionEvent actionEvent) {
+        searchAuthor();
+    }
 }
