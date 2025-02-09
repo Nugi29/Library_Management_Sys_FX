@@ -67,7 +67,7 @@ public class AuthorFormController {
         if (txtId.getText().isEmpty() ||
                 txtName.getText().isEmpty() ||
                 txtContact.getText().isEmpty()) {
-            showAlert(Alert.AlertType.ERROR, "Please fill all fields before adding a member.");
+            showAlert(Alert.AlertType.ERROR, "Please fill all fields before adding a author.");
             return;
         }
 
@@ -78,17 +78,17 @@ public class AuthorFormController {
 
         boolean success;
 
-        if (btnAdd.getText().equals("Update Member") ) {
+        if (btnAdd.getText().equals("Update") ) {
             success = authorController.updateAuthor(author);
         } else {
             success = authorController.addAuthor(author);
         }
 
         if (success) {
-            showAlert(Alert.AlertType.INFORMATION, "Member successfully saved!");
+            showAlert(Alert.AlertType.INFORMATION, "Author successfully saved!");
             clearFields();
             populateTable();
-            btnAdd.setText("Add Member");
+            btnAdd.setText("Add");
         } else {
             showAlert(Alert.AlertType.ERROR, "Operation failed. Try again.");
         }
@@ -122,7 +122,7 @@ public class AuthorFormController {
         txtId.clear();
         txtName.clear();
         txtContact.clear();
-        btnAdd.setText("Add Member");
+        btnAdd.setText("Add");
     }
 
     private void showAlert(Alert.AlertType alertType, String message) {
@@ -151,13 +151,13 @@ public class AuthorFormController {
     void btnDeleteOnAction(ActionEvent event) {
         String id = txtId.getText().trim();
         if (id.isEmpty()) {
-            showAlert(Alert.AlertType.WARNING, "Please select a member to delete.");
+            showAlert(Alert.AlertType.WARNING, "Please select a author to delete.");
             return;
         }
 
         boolean success = authorController.deleteAuthor(id);
         if (success) {
-            showAlert(Alert.AlertType.INFORMATION, "Member successfully deleted!");
+            showAlert(Alert.AlertType.INFORMATION, "Author successfully deleted!");
             clearFields();
             populateTable();
         } else {
