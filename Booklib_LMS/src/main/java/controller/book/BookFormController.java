@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import controller.author.AuthorController;
 import controller.category.CategoryController;
+import controller.publisher.PublisherController;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -27,7 +28,7 @@ public class BookFormController {
     private JFXComboBox<String> cmbCategory;
 
     @FXML
-    private JFXComboBox<?> cmbPublisher;
+    private JFXComboBox<String> cmbPublisher;
 
     @FXML
     private TableColumn<?, ?> colauthor;
@@ -72,6 +73,7 @@ public class BookFormController {
     public void initialize(){
         loadAuthorNames();
         loadCategoryNames();
+        loadPublisherNames();
     }
 
     private void loadAuthorNames() {
@@ -80,6 +82,9 @@ public class BookFormController {
 
     private void loadCategoryNames() {
         cmbCategory.setItems(new CategoryController().getcategoryNames());
+    }
+    private void loadPublisherNames() {
+        cmbPublisher.setItems(new PublisherController().getPublisherNames());
     }
 
     @FXML
@@ -99,8 +104,10 @@ public class BookFormController {
     }
 
     @FXML
-    void btnAddPublisherOnAction(ActionEvent event) {
-
+    void btnAddPublisherOnAction(ActionEvent event) throws IOException {
+        Stage stage = new Stage();
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/publisherform.fxml"))));
+        stage.show();
     }
 
     @FXML

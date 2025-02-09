@@ -11,7 +11,7 @@ import lombok.*;
 
 public class Book {
 
-    private Integer id;
+    private String id;
 
     private String name;
 
@@ -19,7 +19,12 @@ public class Book {
 
     private Boolean availability_status;
 
-    private Publisher publisher;
+    private String publisher;
+
+    private String author;
+
+    private String category;
+
 
 
 }

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="450.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.publisher.PublisherFormController">
+   <children>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#7f8d99" height="80.0" layoutX="31.0" layoutY="60.0" opacity="0.72" stroke="BLACK" strokeType="INSIDE" width="538.0" />
+      <ImageView fitHeight="450.0" fitWidth="600.0" opacity="0.23">
+         <image>
+            <Image url="@../img/d2-Our-Vision-of-Leadership.jpg" />
+         </image>
+      </ImageView>
+      <TextField fx:id="txtId" layoutX="39.0" layoutY="70.0" prefHeight="26.0" prefWidth="178.0" promptText="ID" text="P001" />
+      <TextField fx:id="txtName" layoutX="39.0" layoutY="103.0" prefHeight="26.0" prefWidth="177.0" promptText="Name" />
+      <TextField fx:id="txtContact" layoutX="233.0" layoutY="103.0" prefHeight="26.0" prefWidth="122.0" promptText="Contatct" />
+      <ScrollPane layoutX="31.0" layoutY="150.0" prefHeight="276.0" prefWidth="538.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="274.0" prefWidth="536.0">
+               <children>
+                  <TableView fx:id="tblpublisherview" prefHeight="276.0" prefWidth="538.0">
+                    <columns>
+                      <TableColumn fx:id="colid" prefWidth="78.39999085664749" text="ID" />
+                      <TableColumn fx:id="colname" minWidth="0.0" prefWidth="194.40003967285156" text="Name" />
+                        <TableColumn fx:id="collocation" minWidth="5.5999755859375" prefWidth="143.199951171875" text="Location" />
+                        <TableColumn fx:id="colcontact" minWidth="5.5999755859375" prefWidth="125.5999755859375" text="Contact" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+      <Button fx:id="btnAdd" layoutX="371.0" layoutY="103.0" mnemonicParsing="false" onAction="#btnAddOnAction" prefHeight="26.0" prefWidth="66.0" style="-fx-background-color: #00ff00;" text="Add">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Button>
+      <Button fx:id="btnDelete" layoutX="452.0" layoutY="103.0" mnemonicParsing="false" onAction="#btnDeleteOnAction" prefHeight="26.0" prefWidth="47.0" style="-fx-background-color: #ff0000;" text="Delete">
+         <font>
+            <Font size="11.0" />
+         </font>
+      </Button>
+      <Label layoutX="206.0" layoutY="21.0" text="Publisher Form" textAlignment="CENTER">
+         <font>
+            <Font name="Arnold 2.1" size="25.0" />
+         </font>
+      </Label>
+      <JFXButton fx:id="btnClear" layoutX="513.0" layoutY="102.0" onAction="#btnClearOnAction" prefHeight="26.0" prefWidth="47.0" style="-fx-border-color: black;" text="Clear" />
+      <JFXButton fx:id="btnSearch" layoutX="564.0" layoutY="23.0" onAction="#btnSearchOnAction" prefHeight="27.0" prefWidth="34.0" text="🔍" />
+      <TextField fx:id="txtSearch" layoutX="435.0" layoutY="23.0" opacity="0.71" prefHeight="27.0" prefWidth="134.0" promptText="Search..." style="-fx-border-color: black; -fx-border-radius: 50px;" />
+      <TextField fx:id="txtLocation" layoutX="233.0" layoutY="70.0" prefHeight="26.0" prefWidth="169.0" promptText="location" />
+   </children>
+</AnchorPane>
