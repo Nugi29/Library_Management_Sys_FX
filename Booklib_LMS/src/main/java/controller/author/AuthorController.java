@@ -59,10 +59,28 @@ public class AuthorController implements AuthorService{
     }
 
     @Override
-    public Author searchAuthor(String id) {
+    public Author searchAuthorById(String id) {
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             ResultSet resultSet = connection.createStatement().executeQuery("SELECT * FROM author WHERE id=" + "'" + id + "'");
+            resultSet.next();
+
+            return new Author(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3)
+            );
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Author searchAuthorByName(String name) {
+        try {
+            Connection connection = DBConnection.getInstance().getConnection();
+            ResultSet resultSet = connection.createStatement().executeQuery("SELECT * FROM author WHERE name=" + "'" + name + "'");
             resultSet.next();
 
             return new Author(

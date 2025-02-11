@@ -8,39 +8,46 @@
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="532.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.book.BookFormController">
    <children>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#7f8d99" height="113.0" layoutX="28.0" layoutY="14.0" opacity="0.12" stroke="BLACK" strokeType="INSIDE" width="694.0" />
-      <TextField fx:id="txtName" layoutX="40.0" layoutY="75.0" prefHeight="27.0" prefWidth="251.0" promptText="Name">
+      <ImageView fitHeight="532.0" fitWidth="750.0" opacity="0.23">
+         <image>
+            <Image url="@../img/d2-Our-Vision-of-Leadership.jpg" />
+         </image>
+      </ImageView>
+      <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#a4a5a6" height="113.0" layoutX="28.0" layoutY="36.0" opacity="0.36" stroke="BLACK" strokeType="INSIDE" width="694.0" />
+      <TextField fx:id="txtName" layoutX="40.0" layoutY="97.0" prefHeight="27.0" prefWidth="251.0" promptText="Name">
          <font>
             <Font size="13.0" />
          </font></TextField>
-      <TextField fx:id="txtID" layoutX="40.0" layoutY="33.0" prefHeight="27.0" prefWidth="77.0" promptText="ID" text="24000001">
+      <TextField fx:id="txtID" layoutX="40.0" layoutY="55.0" prefHeight="27.0" prefWidth="77.0" promptText="ID">
          <font>
             <Font size="13.0" />
          </font></TextField>
-      <JFXCheckBox fx:id="chkAvailability" layoutX="629.0" layoutY="39.0" onAction="#chkAvailabilityOnAction" text="Availability" />
-      <JFXComboBox fx:id="cmbAuthor" layoutX="318.0" layoutY="75.0" prefHeight="26.0" prefWidth="115.0" promptText="Author" />
-      <JFXComboBox fx:id="cmbPublisher" layoutX="318.0" layoutY="33.0" prefHeight="26.0" prefWidth="115.0" promptText="Publisher" />
-      <JFXButton layoutX="437.0" layoutY="35.0" onAction="#btnAddPublisherOnAction" text="+" />
-      <JFXButton layoutX="438.0" layoutY="77.0" onAction="#btnAddAuthorOnAction" text="+" />
-      <ScrollPane layoutX="21.0" layoutY="139.0" prefHeight="374.0" prefWidth="706.0">
+      <JFXCheckBox fx:id="chkAvailability" layoutX="629.0" layoutY="61.0" onAction="#chkAvailabilityOnAction" text="Availability" />
+      <JFXComboBox fx:id="cmbAuthor" layoutX="318.0" layoutY="97.0" prefHeight="26.0" prefWidth="115.0" promptText="Author" />
+      <JFXComboBox fx:id="cmbPublisher" layoutX="318.0" layoutY="55.0" prefHeight="26.0" prefWidth="115.0" promptText="Publisher" />
+      <JFXButton layoutX="437.0" layoutY="57.0" onAction="#btnAddPublisherOnAction" text="+" />
+      <JFXButton layoutX="438.0" layoutY="99.0" onAction="#btnAddAuthorOnAction" text="+" />
+      <ScrollPane layoutX="22.0" layoutY="159.0" prefHeight="358.0" prefWidth="706.0">
         <content>
-          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="372.0" prefWidth="702.0">
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="356.0" prefWidth="702.0">
                <children>
-                  <TableView prefHeight="374.0" prefWidth="706.0">
+                  <TableView fx:id="tblBookview" prefHeight="374.0" prefWidth="706.0">
                     <columns>
-                      <TableColumn fx:id="colid" prefWidth="78.39998704195023" text="ID" />
-                      <TableColumn fx:id="colname" prefWidth="131.20001220703125" text="Name" />
-                        <TableColumn fx:id="colisbn" prefWidth="123.20004272460938" text="ISBN" />
-                        <TableColumn fx:id="colpublisher" prefWidth="92.800048828125" text="Publisher" />
-                        <TableColumn fx:id="colcategory" minWidth="0.0" prefWidth="91.199951171875" text="Category" />
-                        <TableColumn fx:id="colauthor" prefWidth="99.2000732421875" text="Author" />
-                        <TableColumn fx:id="colavailability" prefWidth="89.60009765625" text="Availability" />
+                      <TableColumn fx:id="colid" prefWidth="73.59999924898148" text="ID" />
+                      <TableColumn fx:id="colname" prefWidth="177.59999084472656" text="Name" />
+                        <TableColumn fx:id="colisbn" prefWidth="104.80006408691406" text="ISBN" />
+                        <TableColumn fx:id="colpublisher" prefWidth="101.60003662109375" text="Publisher" />
+                        <TableColumn fx:id="colcategory" minWidth="0.0" prefWidth="67.199951171875" text="Category" />
+                        <TableColumn fx:id="colauthor" prefWidth="133.60003662109375" text="Author" />
+                        <TableColumn fx:id="colavailability" prefWidth="57.5999755859375" text="Availability" />
                         <TableColumn prefWidth="312.00006103515625" text="Author" />
                     </columns>
                   </TableView>
@@ -48,18 +55,20 @@
             </AnchorPane>
         </content>
       </ScrollPane>
-      <TextField fx:id="txtISBN" layoutX="128.0" layoutY="33.0" promptText="ISBN">
+      <TextField fx:id="txtISBN" layoutX="128.0" layoutY="55.0" promptText="ISBN">
          <font>
             <Font size="13.0" />
          </font>
       </TextField>
-      <JFXComboBox fx:id="cmbCategory" layoutX="476.0" layoutY="34.0" prefHeight="26.0" prefWidth="115.0" promptText="Category" />
-      <JFXButton layoutX="596.0" layoutY="36.0" onAction="#btnAddCategoryOnAction" text="+" />
-      <Separator layoutX="300.0" layoutY="25.0" orientation="VERTICAL" prefHeight="91.0" prefWidth="4.0" />
-      <Separator layoutX="462.0" layoutY="26.0" orientation="VERTICAL" prefHeight="91.0" prefWidth="4.0" />
-      <Separator layoutX="468.0" layoutY="70.0" prefHeight="6.0" prefWidth="242.0" />
-      <JFXButton fx:id="btnAdd" layoutX="476.0" layoutY="89.0" prefHeight="26.0" prefWidth="84.0" style="-fx-background-color: #00ff00;" text="Add" />
-      <JFXButton fx:id="btnDelete" layoutX="577.0" layoutY="89.0" prefHeight="26.0" prefWidth="52.0" style="-fx-background-color: #ff0000;" text="Delete" />
-      <JFXButton fx:id="btnClear" layoutX="647.0" layoutY="89.0" prefHeight="26.0" prefWidth="52.0" style="-fx-border-color: black;" text="Clear" />
+      <JFXComboBox fx:id="cmbCategory" layoutX="476.0" layoutY="56.0" prefHeight="26.0" prefWidth="115.0" promptText="Category" />
+      <JFXButton layoutX="596.0" layoutY="58.0" onAction="#btnAddCategoryOnAction" text="+" />
+      <Separator layoutX="300.0" layoutY="47.0" orientation="VERTICAL" prefHeight="91.0" prefWidth="4.0" />
+      <Separator layoutX="462.0" layoutY="48.0" orientation="VERTICAL" prefHeight="91.0" prefWidth="4.0" />
+      <Separator layoutX="470.0" layoutY="92.0" prefHeight="6.0" prefWidth="242.0" />
+      <JFXButton fx:id="btnAdd" layoutX="476.0" layoutY="111.0" onAction="#btnAddOnAction" prefHeight="26.0" prefWidth="84.0" style="-fx-background-color: #00ff00;" text="Add" />
+      <JFXButton fx:id="btnDelete" layoutX="577.0" layoutY="111.0" onAction="#btnDeleteOnAction" prefHeight="26.0" prefWidth="52.0" style="-fx-background-color: #ff0000;" text="Delete" />
+      <JFXButton fx:id="btnClear" layoutX="647.0" layoutY="111.0" onAction="#btnClearOnAction" prefHeight="26.0" prefWidth="52.0" style="-fx-border-color: black;" text="Clear" />
+      <TextField fx:id="txtSearch" layoutX="555.0" layoutY="5.0" promptText="Search" style="-fx-background-radius: 50px; -fx-border-radius: 50px; -fx-border-color: black;" />
+      <JFXButton fx:id="btnSearch" layoutX="699.0" layoutY="4.0" onAction="#btnSearchOnAction" prefHeight="27.0" prefWidth="34.0" text="🔍" />
    </children>
 </AnchorPane>

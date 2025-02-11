@@ -8,6 +8,7 @@ public interface AuthorService {
     boolean addAuthor(Author author);
     boolean updateAuthor(Author author);
     boolean deleteAuthor(String id);
-    Author searchAuthor(String id);
+    Author searchAuthorById(String id);
+    Author searchAuthorByName(String name);
     List<Author> getAll();
 }

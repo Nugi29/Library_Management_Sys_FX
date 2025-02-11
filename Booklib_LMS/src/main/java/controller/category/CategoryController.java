@@ -57,10 +57,27 @@ public class CategoryController implements CategoryService{
     }
 
     @Override
-    public Category searchCategory(String id) {
+    public Category searchCategoryById(String id) {
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             ResultSet resultSet = connection.createStatement().executeQuery("SELECT * FROM author WHERE id=" + "'" + id + "'");
+            resultSet.next();
+
+            return new Category(
+                    resultSet.getString(1),
+                    resultSet.getString(2)
+            );
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Category searchCategoryByName(String name) {
+        try {
+            Connection connection = DBConnection.getInstance().getConnection();
+            ResultSet resultSet = connection.createStatement().executeQuery("SELECT * FROM category WHERE name=" + "'" + name + "'");
             resultSet.next();
 
             return new Category(

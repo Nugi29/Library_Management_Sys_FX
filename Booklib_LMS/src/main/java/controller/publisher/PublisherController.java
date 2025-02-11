@@ -59,10 +59,29 @@ public class PublisherController implements PublisherService{
     }
 
     @Override
-    public Publisher searchPublisher(String id) {
+    public Publisher searchPublisherById(String id) {
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             ResultSet resultSet = connection.createStatement().executeQuery("SELECT * FROM publisher WHERE id=" + "'" + id + "'");
+            resultSet.next();
+
+            return new Publisher(
+                    resultSet.getString(1),
+                    resultSet.getString(2),
+                    resultSet.getString(3),
+                    resultSet.getString(4)
+            );
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Publisher searchPublisherByName(String name) {
+        try {
+            Connection connection = DBConnection.getInstance().getConnection();
+            ResultSet resultSet = connection.createStatement().executeQuery("SELECT * FROM publisher WHERE name=" + "'" + name + "'");
             resultSet.next();
 
             return new Publisher(

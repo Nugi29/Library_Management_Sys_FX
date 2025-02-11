@@ -9,6 +9,8 @@ public interface PublisherService {
     boolean addPublisher(Publisher publisher);
     boolean updatePublisher(Publisher publisher);
     boolean deletePublisher(String id);
-    Publisher searchPublisher(String id);
+    Publisher searchPublisherById(String id);
+    Publisher searchPublisherByName(String name);
     List<Publisher> getAll();
+
 }

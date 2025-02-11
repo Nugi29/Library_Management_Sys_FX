@@ -10,5 +10,5 @@ public interface BookService {
     boolean updateBook(Book member);
     boolean deleteBook(String id);
     Book searchBook(String id);
-    List<Book> getAll();
+    List<?> getAll();
 }

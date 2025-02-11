@@ -19,12 +19,10 @@ public class Book {
 
     private Boolean availability_status;
 
-    private String publisher;
+    private String category_id;
 
-    private String author;
+    private String author_id;
 
-    private String category;
-
-
+    private String publisher_id;
 
 }
