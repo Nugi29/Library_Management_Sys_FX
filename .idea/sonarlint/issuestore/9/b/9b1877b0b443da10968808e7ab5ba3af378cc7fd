@@ -1,0 +1,38 @@
+
+E
+java:S3740 "/Provide the parametrized type for this generic.(¹ñãÉ
+J
+java:S3740/"/Provide the parametrized type for this generic.(êãÓ¼üÿÿÿÿ
+E
+java:S37402"/Provide the parametrized type for this generic.(×ğ´ù
+E
+java:S37405"/Provide the parametrized type for this generic.(áÏÆç
+E
+java:S37408"/Provide the parametrized type for this generic.(ê—ÏÉ
+E
+java:S3740;"/Provide the parametrized type for this generic.(…¤ñ€
+J
+java:S3740>"/Provide the parametrized type for this generic.(Éòßúÿÿÿÿ
+J
+java:S3740A"/Provide the parametrized type for this generic.(ÿĞÊ³ıÿÿÿÿ
+p
+java:S2293Å"YReplace the type specification in this constructor call with the diamond operator ("<>").(Öµãá
+u
+java:S2293Æ"YReplace the type specification in this constructor call with the diamond operator ("<>").(ƒ·ê®úÿÿÿÿ
+p
+java:S2293Ç"YReplace the type specification in this constructor call with the diamond operator ("<>").(ÄÔéä
+u
+java:S2293È"YReplace the type specification in this constructor call with the diamond operator ("<>").(…œÌÉúÿÿÿÿ
+u
+java:S2293É"YReplace the type specification in this constructor call with the diamond operator ("<>").(†¸ÑÕøÿÿÿÿ
+u
+java:S2293Ê"YReplace the type specification in this constructor call with the diamond operator ("<>").(ª²ºüÿÿÿÿ
+u
+java:S2293Ë"YReplace the type specification in this constructor call with the diamond operator ("<>").(ÎÄŸ…úÿÿÿÿ
+˜
+java:S1186Š"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(¸î•Æ
+A	java:S106¿"+Replace this use of System.out by a logger.(äüÃâ
+I
+java:S1172Ÿ"2Remove this unused method parameter "actionEvent".(áÄ´ü
+`
+java:S1128"ERemove this unused import 'com.sun.javafx.collections.MappingChange'.(¹Ø´¯şÿÿÿÿ

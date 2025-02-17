@@ -1,0 +1,22 @@
+
+`	java:S112$"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òιόÿÿÿÿ
+`	java:S1129"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òιόÿÿÿÿ
+`	java:S112F"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òιόÿÿÿÿ
+`	java:S112T"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òιόÿÿÿÿ
+`	java:S112x"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òιόÿÿÿÿ
+]
+java:S2095h"GUse try-with-resources or close this "Statement" in a "finally" clause.(έχ©δ
+j
+java:S2095B"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(β…ΝΖÿÿÿÿÿ
+j
+java:S2095"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(β…ΝΖÿÿÿÿÿ
+j
+java:S2095/"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(β…ΝΖÿÿÿÿÿ
+e
+java:S2095P"OUse try-with-resources or close this "PreparedStatement" in a "finally" clause.(…Ν
+S
+java:S1128"=Remove this unused import 'javafx.collections.FXCollections'.(΄¶²Ζ
+Y
+java:S1128">Remove this unused import 'javafx.collections.ObservableList'.(Δά€ιόÿÿÿÿ
+D
+java:S1128")Remove this unused import 'model.Author'.(¥ύΙΰψÿÿÿÿ
