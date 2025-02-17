@@ -13,6 +13,31 @@
 
 #btnUserForm:hover,#btnBookForm:hover,#btnBorrowForm:hover,#btnFineForm:hover,#btnReportForm:hover{
     -fx-background-color: #4abd46; /* Slightly darker gray on hover */
+}
+
+.round-exit-button {
+    -fx-background-color: #e74c3c;
+    -fx-text-fill: white;
+    -fx-background-radius: 30px;
+    -fx-border-radius: 30px;
+    -fx-border-color: transparent;
+    -fx-padding: 10px;
+    -fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.6), 10, 0, 0, 0);
+    -fx-font-family: "Arial";
+    -fx-font-weight: bold;
 
 
+}
+
+.round-exit-button:hover {
+    -fx-background-color: #c0392b;
+    -fx-border-color: #a93226;
+    -fx-effect: dropshadow(gaussian, rgba(231, 76, 60, 0.8), 10, 0.5, 0, 2);
+
+}
+
+.round-exit-button:pressed {
+    -fx-background-color: #922b21;
+    -fx-border-color: #78281f;
+    -fx-effect: dropshadow(gaussian, rgba(231, 76, 60, 1), 3, 0.5, 0, 1);
 }

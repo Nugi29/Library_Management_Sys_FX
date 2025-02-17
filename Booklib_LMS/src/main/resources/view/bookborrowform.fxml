@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane prefHeight="530.0" prefWidth="740.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.bookborrow.Bookborrowform">
+   <children>
+      <Rectangle fill="#d4e5f4" height="531.0" layoutX="538.0" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" width="210.0" />
+      <Circle layoutX="648.0" layoutY="104.0" radius="49.0" stroke="BLACK" strokeType="INSIDE" />
+      <Rectangle arcHeight="40.0" arcWidth="40.0" fill="WHITE" height="30.0" layoutX="684.0" layoutY="9.0" stroke="BLACK" strokeType="INSIDE" width="61.0" />
+      <ImageView fitHeight="21.0" fitWidth="22.0" layoutX="689.0" layoutY="11.0">
+         <image>
+            <Image url="@../img/star.png" />
+         </image>
+      </ImageView>
+      <Label fx:id="lblPoints" layoutX="716.0" layoutY="15.0" text="000">
+         <font>
+            <Font name="System Bold" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="rightPnlLblId" alignment="CENTER" layoutX="573.0" layoutY="165.0" prefHeight="18.0" prefWidth="150.0" text="M010" textAlignment="CENTER" textFill="#c74444" underline="true">
+         <font>
+            <Font name="System Bold Italic" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="rightPnlLblName" alignment="CENTER" layoutX="573.0" layoutY="185.0" prefHeight="18.0" prefWidth="150.0" text="Nugitha Disas" textAlignment="CENTER">
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
+      </Label>
+      <Label fx:id="rightPnlLblTp" alignment="CENTER" layoutX="573.0" layoutY="203.0" prefHeight="18.0" prefWidth="150.0" text="0703760140" textAlignment="CENTER">
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
+      </Label>
+      <TableView fx:id="rightPnlTblView" layoutX="556.0" layoutY="255.0" prefHeight="214.0" prefWidth="176.0">
+         <columns>
+            <TableColumn fx:id="coldate" prefWidth="83.99993896484375" text="Date" />
+            <TableColumn fx:id="colbook" prefWidth="91.199951171875" text="Book" />
+         </columns>
+      </TableView>
+      <ImageView fitHeight="98.0" fitWidth="98.0" layoutX="599.0" layoutY="55.0">
+         <image>
+            <Image url="@../img/profile.png" />
+         </image>
+      </ImageView>
+      <Button fx:id="btnExit" layoutX="621.0" layoutY="480.0" maxHeight="76.0" maxWidth="130.0" mnemonicParsing="false" onAction="#btnExitOnAction" prefHeight="30.0" prefWidth="50.0" styleClass="round-exit-button" stylesheets="@../css/styles.css" text="EXIT">
+         <font>
+            <Font size="10.0" />
+         </font>
+      </Button>
+      <Label fx:id="rightPnlLblStatus" alignment="CENTER" layoutX="617.0" layoutY="224.0" prefHeight="18.0" prefWidth="61.0" style="-fx-background-color: #77B254;" text="Available" textAlignment="CENTER" textFill="WHITE">
+         <font>
+            <Font name="System Italic" size="12.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

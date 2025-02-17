@@ -14,11 +14,9 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 
 public class DashboardFormController {
 
@@ -47,7 +45,7 @@ public class DashboardFormController {
     private Button btnUserForm;
 
     @FXML
-    private AnchorPane dashbordSubAnchor;
+    public  AnchorPane dashbordSubAnchor;
 
     public void initialize() {
         setDateAndTime();
@@ -81,7 +79,15 @@ public class DashboardFormController {
     }
 
     @FXML
-    void btnBorrowOnActon(ActionEvent event) {
+    void btnBorrowOnActon(ActionEvent event) throws IOException {
+        URL resource = this.getClass().getResource("/view/bookborrowloginform.fxml");
+
+        assert resource != null;
+
+        Parent load = FXMLLoader.load(resource);
+
+        dashbordSubAnchor.getChildren().clear();
+        dashbordSubAnchor.getChildren().add(load);
 
     }
 
