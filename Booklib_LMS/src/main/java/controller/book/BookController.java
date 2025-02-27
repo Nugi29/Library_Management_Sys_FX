@@ -1,9 +1,6 @@
 package controller.book;
 
 import DB.DBConnection;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import model.Author;
 import model.Book;
 
 import java.sql.Connection;
@@ -35,23 +32,22 @@ public class BookController implements BookService {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-
     }
 
     @Override
-    public boolean updateBook(Book member) {
+    public boolean updateBook(Book book) {
 
         try {
             Connection connection = DBConnection.getInstance().getConnection();
             String query = "UPDATE book SET name=?, isbn=?, availability_status=?, category_id=?, author_id=?, publisher_id=? WHERE id=?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
-            preparedStatement.setString(1, member.getName());
-            preparedStatement.setString(2, member.getIsbn());
-            preparedStatement.setBoolean(3, member.getAvailability_status());
-            preparedStatement.setString(4, member.getCategory_id());
-            preparedStatement.setString(5, member.getAuthor_id());
-            preparedStatement.setString(6, member.getPublisher_id());
-            preparedStatement.setString(7, member.getId());
+            preparedStatement.setString(1, book.getName());
+            preparedStatement.setString(2, book.getIsbn());
+            preparedStatement.setBoolean(3, Boolean.parseBoolean("true"));
+            preparedStatement.setString(4, book.getCategory_id());
+            preparedStatement.setString(5, book.getAuthor_id());
+            preparedStatement.setString(6, book.getPublisher_id());
+            preparedStatement.setString(7, book.getId());
             return preparedStatement.executeUpdate() > 0;
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -121,5 +117,26 @@ public class BookController implements BookService {
         }
     }
 
+    public String nextId() {
+        try {
+            Connection connection = DBConnection.getInstance().getConnection();
+            ResultSet resultSet = connection.createStatement().executeQuery("SELECT id FROM book ORDER BY id DESC LIMIT 1");
+            if (resultSet.next()) {
+                return resultSet.getString("id");
+            }
+            return null;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public Book findBookByName(String bookName) {
+
+        for (Map<String, Object> book : getAll()) {
+            if (book.get("name").toString().equals(bookName)) {
+                return searchBook(book.get("id").toString());
+            }
+        }
+        return null;
+    }
 
 }

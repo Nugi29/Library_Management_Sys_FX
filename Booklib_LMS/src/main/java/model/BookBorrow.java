@@ -13,9 +13,9 @@ public class BookBorrow {
 
     private String id;
 
-    private Book book;
+    private String bookId;
 
-    private Member member;
+    private String memberId;
 
     private String borrowDate;
 

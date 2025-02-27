@@ -6,8 +6,8 @@ import model.Member;
 import java.util.List;
 
 public interface BookService {
-    boolean addBook(Book member);
-    boolean updateBook(Book member);
+    boolean addBook(Book book);
+    boolean updateBook(Book book);
     boolean deleteBook(String id);
     Book searchBook(String id);
     List<?> getAll();

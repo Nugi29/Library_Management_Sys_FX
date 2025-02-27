@@ -103,7 +103,6 @@ public class BookFormController {
     private void loadAuthorNames() {
         cmbAuthor.setItems(new AuthorController().getAuthorNames());
     }
-
     private void loadCategoryNames() {
         cmbCategory.setItems(new CategoryController().getcategoryNames());
     }
