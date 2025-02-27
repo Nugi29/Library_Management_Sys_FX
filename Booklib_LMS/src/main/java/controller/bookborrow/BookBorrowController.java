@@ -148,15 +148,14 @@ public class BookBorrowController {
         }
     }
 
-    public ArrayList <BookBorrow> searchPendingBookBorrowByMemberId(String memberId) {
-        ArrayList <BookBorrow> bookBorrows = new ArrayList<>();
-        try {
-            Connection connection = DBConnection.getInstance().getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM book_borrow WHERE member_id=? AND isReturned=false");
-            preparedStatement.setString(1, memberId);
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()) {
+public ArrayList<BookBorrow> searchPendingBookBorrowByMemberId(String memberId) {
+    ArrayList<BookBorrow> bookBorrows = new ArrayList<>();
+    System.out.println(bookBorrows);
+    try (Connection connection = DBConnection.getInstance().getConnection();
+         PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM book_borrow WHERE member_id=? AND isReturned=0")) {
+        preparedStatement.setString(1, memberId);
+        try (ResultSet resultSet = preparedStatement.executeQuery()) {
+            while (resultSet.next()) {
                 bookBorrows.add(new BookBorrow(
                         resultSet.getString("id"),
                         resultSet.getString("book_id"),
@@ -164,14 +163,15 @@ public class BookBorrowController {
                         resultSet.getString("borrowed_date"),
                         resultSet.getBoolean("isReturned"),
                         resultSet.getString("returnDate"),
-                        resultSet.getString("ReturnedDate")
+                        resultSet.getString("returnedDate")
                 ));
             }
-            return bookBorrows;
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
         }
+        return bookBorrows;
+    } catch (SQLException e) {
+        throw new RuntimeException(e);
     }
+}
 
 
 
