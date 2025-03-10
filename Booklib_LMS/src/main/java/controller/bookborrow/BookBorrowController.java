@@ -132,6 +132,7 @@ public class BookBorrowController {
         return bookBorrowList;
     }
 
+
     public String nextId() {
         try {
             Connection connection = DBConnection.getInstance().getConnection();

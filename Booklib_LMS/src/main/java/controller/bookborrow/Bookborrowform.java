@@ -129,22 +129,87 @@ public class Bookborrowform {
     @FXML
     private BookBorrowController bookBorrowController = new BookBorrowController();
 
+    // Maximum number of books a user can borrow at once
+    private final int MAX_BOOKS_ALLOWED = 3;
+
+    @FXML
+    private Label lblBorrowLimit;
+
+    @FXML
+    private Button btnReturnToGetNew;
+
     @FXML
     public void initialize() {
-        setRightpnl();
-        populateTable();
-        tblBook.setOnMouseClicked(this::tblBookviewOnMouseClicked);
-        setSpinnerDays();
-        showPendingBooks();
+        try {
+            setRightpnl();
+            populateTable();
+            tblBook.setOnMouseClicked(this::tblBookviewOnMouseClicked);
+            setSpinnerDays();
+            showPendingBooks();
 
-        // Set buttons enabled/disabled based on pending books
-        updateReturnButtonsState();
+            // Set the borrow limit label
+            if (lblBorrowLimit != null) {
+                lblBorrowLimit.setText("Book Limit: " + MAX_BOOKS_ALLOWED);
+            }
+
+            // Set buttons enabled/disabled based on pending books
+            updateReturnButtonsState();
+            updateBorrowLimitDisplay();
+        } catch (Exception e) {
+            System.err.println("Error during initialization: " + e.getMessage());
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Initialization Error",
+                    "Failed to initialize the form",
+                    "An error occurred: " + e.getMessage());
+        }
     }
 
     private void updateReturnButtonsState() {
         btnReturnBook1.setDisable(lblPBook1.getText().isEmpty());
         btnReturnBook2.setDisable(lblPBook2.getText().isEmpty());
         btnReturnBook3.setDisable(lblPBook3.getText().isEmpty());
+    }
+
+    // Method to update the borrow limit display and return button
+    private void updateBorrowLimitDisplay() {
+        try {
+            // Count how many books the user has borrowed
+            ArrayList<BookBorrow> borrowedBooks = bookBorrowController.searchPendingBookBorrowByMemberId(rightPnlLblId.getText());
+            int borrowedCount = (borrowedBooks != null) ? borrowedBooks.size() : 0;
+
+            // Update the status display
+            if (lblBorrowLimit != null) {
+                lblBorrowLimit.setText("Books borrowed: " + borrowedCount + " / " + MAX_BOOKS_ALLOWED);
+            }
+
+            // If the user has reached the limit, enable the return-to-get-new button
+            if (btnReturnToGetNew != null) {
+                btnReturnToGetNew.setDisable(borrowedCount < MAX_BOOKS_ALLOWED);
+
+                // Change button appearance based on whether user has reached limit
+                if (borrowedCount >= MAX_BOOKS_ALLOWED) {
+                    btnReturnToGetNew.getStyleClass().add("warning-button");
+                } else {
+                    btnReturnToGetNew.getStyleClass().remove("warning-button");
+                }
+            }
+
+            // Disable the issue button if the user has reached the limit
+            if (btnIsue != null) {
+                boolean hasSelectedBooks = !txtId1.getText().isEmpty() || !txtId2.getText().isEmpty() || !txtId3.getText().isEmpty();
+                btnIsue.setDisable(borrowedCount >= MAX_BOOKS_ALLOWED && hasSelectedBooks);
+
+                // Show a tooltip if disabled
+                if (borrowedCount >= MAX_BOOKS_ALLOWED) {
+                    Tooltip tooltip = new Tooltip("You must return a book before borrowing a new one.");
+                    btnIsue.setTooltip(tooltip);
+                } else {
+                    btnIsue.setTooltip(null);
+                }
+            }
+        } catch (Exception e) {
+            System.err.println("Error updating borrow limit display: " + e.getMessage());
+        }
     }
 
     @FXML
@@ -171,8 +236,124 @@ public class Bookborrowform {
     }
 
     @FXML
+    void btnReturnToGetNewOnAction(ActionEvent event) {
+        showReturnDialog();
+    }
+
+    private void showReturnDialog() {
+        try {
+            // Get all pending books
+            ArrayList<BookBorrow> borrowedBooks = bookBorrowController.searchPendingBookBorrowByMemberId(rightPnlLblId.getText());
+
+            if (borrowedBooks == null || borrowedBooks.isEmpty()) {
+                showAlert(Alert.AlertType.INFORMATION, "No Books to Return",
+                        "You don't have any books to return.",
+                        "Borrow some books first.");
+                return;
+            }
+
+            // Create a dialog
+            Dialog<String> dialog = new Dialog<>();
+            dialog.setTitle("Return Books");
+            dialog.setHeaderText("Select a book to return:");
+
+            // Set the button types
+            ButtonType returnButtonType = new ButtonType("Return", ButtonBar.ButtonData.OK_DONE);
+            dialog.getDialogPane().getButtonTypes().addAll(returnButtonType, ButtonType.CANCEL);
+
+            // Create the book selection ListView
+            ListView<String> listView = new ListView<>();
+            ObservableList<String> bookItems = FXCollections.observableArrayList();
+
+            // Map to keep track of book names to book borrow records
+            java.util.Map<String, BookBorrow> bookMap = new java.util.HashMap<>();
+
+            // Add each book to the list
+            for (BookBorrow borrow : borrowedBooks) {
+                Book book = bookController.searchBook(borrow.getBookId());
+                if (book != null) {
+                    String displayText = book.getName() + " (ID: " + book.getId() + ")";
+                    bookItems.add(displayText);
+                    bookMap.put(displayText, borrow);
+                }
+            }
+
+            listView.setItems(bookItems);
+            dialog.getDialogPane().setContent(listView);
+
+            // Convert the result
+            dialog.setResultConverter(dialogButton -> {
+                if (dialogButton == returnButtonType) {
+                    return listView.getSelectionModel().getSelectedItem();
+                }
+                return null;
+            });
+
+            // Show the dialog and process the result
+            Optional<String> result = dialog.showAndWait();
+
+            result.ifPresent(bookString -> {
+                BookBorrow borrowToReturn = bookMap.get(bookString);
+                if (borrowToReturn != null) {
+                    // Process the return
+                    processBookReturn(borrowToReturn);
+                }
+            });
+        } catch (Exception e) {
+            System.err.println("Error showing return dialog: " + e.getMessage());
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "Failed to show return dialog",
+                    "An error occurred: " + e.getMessage());
+        }
+    }
+
+    private void processBookReturn(BookBorrow borrow) {
+        try {
+            // Mark the book as returned
+            borrow.setIsReturned(true);
+            borrow.setReturnedDate(LocalDate.now().toString());
+
+            // Update the book's availability status
+            Book book = bookController.searchBook(borrow.getBookId());
+
+            if (book == null) {
+                showAlert(Alert.AlertType.ERROR, "Error",
+                        "Book not found",
+                        "Could not find the book with ID: " + borrow.getBookId());
+                return;
+            }
+
+            book.setAvailability_status(true);
+            bookController.updateBook(book);
+
+            boolean success = bookBorrowController.updateBookBorrow(borrow);
+
+            if (success) {
+                showAlert(Alert.AlertType.INFORMATION, "Success",
+                        "Book returned successfully",
+                        "The book has been marked as returned. You can now borrow a new book.");
+
+                // Refresh the pending books display and table
+                showPendingBooks();
+                populateTable();
+                updateBorrowLimitDisplay();
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Error",
+                        "Failed to return book",
+                        "Database error occurred while updating the record.");
+            }
+        } catch (Exception e) {
+            System.err.println("Error processing book return: " + e.getMessage());
+            e.printStackTrace();
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "Failed to process book return",
+                    "An error occurred: " + e.getMessage());
+        }
+    }
+
+    @FXML
     void btnIsueOnAction(ActionEvent event) {
-        //nooooooo workingg---------------------------------------------------------------------
         // Input validation
         if (rightPnlLblId.getText().isEmpty()) {
             showAlert(Alert.AlertType.ERROR, "Error", "No member selected",
@@ -184,6 +365,22 @@ public class Bookborrowform {
         if (txtId1.getText().isEmpty() && txtId2.getText().isEmpty() && txtId3.getText().isEmpty()) {
             showAlert(Alert.AlertType.ERROR, "Error", "No books selected",
                     "Please select at least one book to borrow.");
+            return;
+        }
+
+        // Check if the user has reached the borrow limit
+        ArrayList<BookBorrow> currentlyBorrowed = bookBorrowController.searchPendingBookBorrowByMemberId(rightPnlLblId.getText());
+        int borrowedCount = (currentlyBorrowed != null) ? currentlyBorrowed.size() : 0;
+        int selectedCount = 0;
+        if (!txtId1.getText().isEmpty()) selectedCount++;
+        if (!txtId2.getText().isEmpty()) selectedCount++;
+        if (!txtId3.getText().isEmpty()) selectedCount++;
+
+        if (borrowedCount + selectedCount > MAX_BOOKS_ALLOWED) {
+            showAlert(Alert.AlertType.ERROR, "Borrow Limit Reached",
+                    "You cannot borrow more than " + MAX_BOOKS_ALLOWED + " books",
+                    "You currently have " + borrowedCount + " books borrowed. You can select up to "
+                            + (MAX_BOOKS_ALLOWED - borrowedCount) + " more books, or return some books first.");
             return;
         }
 
@@ -202,6 +399,9 @@ public class Bookborrowform {
                         "Book ID " + txtId1.getText() + " could not be found.");
                 allSuccess = false;
             } else {
+                book1.setAvailability_status(false);
+                bookController.updateBook(book1);
+
                 boolean success = bookBorrowController.addBookBorrow(
                         new BookBorrow(
                                 bookBorrowController.nextId(),
@@ -224,6 +424,8 @@ public class Bookborrowform {
                         "Book ID " + txtId2.getText() + " could not be found.");
                 allSuccess = false;
             } else {
+                book2.setAvailability_status(false);
+                bookController.updateBook(book2);
                 boolean success = bookBorrowController.addBookBorrow(
                         new BookBorrow(
                                 bookBorrowController.nextId(),
@@ -246,6 +448,8 @@ public class Bookborrowform {
                         "Book ID " + txtId3.getText() + " could not be found.");
                 allSuccess = false;
             } else {
+                book3.setAvailability_status(false);
+                bookController.updateBook(book3);
                 boolean success = bookBorrowController.addBookBorrow(
                         new BookBorrow(
                                 bookBorrowController.nextId(),
@@ -272,6 +476,7 @@ public class Bookborrowform {
             txtName3.clear();
             populateTable();
             showPendingBooks();
+            updateBorrowLimitDisplay();
         } else {
             showAlert(Alert.AlertType.ERROR, "Error", "Failed to borrow books",
                     "Some or all books could not be borrowed.");
@@ -332,10 +537,10 @@ public class Bookborrowform {
 
     private void populateTable() {
         try {
-            ObservableList<Map<String, Object>> bookList = FXCollections.observableArrayList(bookController.getAll());
-            colid.setCellValueFactory(new MapValueFactory<String>("id"));
-            colname.setCellValueFactory(new MapValueFactory<String>("name"));
-            colauthor.setCellValueFactory(new MapValueFactory<String>("author"));
+            ObservableList<Map<String, Object>> bookList = FXCollections.observableArrayList(bookController.getAllAvailable());
+            colid.setCellValueFactory(new MapValueFactory<>("id"));
+            colname.setCellValueFactory(new MapValueFactory<>("name"));
+            colauthor.setCellValueFactory(new MapValueFactory<>("author"));
             tblBook.setItems(bookList);
         } catch (Exception e) {
             System.err.println("Error populating table: " + e.getMessage());
@@ -349,6 +554,21 @@ public class Bookborrowform {
         Map<String, Object> selectedBook = tblBook.getSelectionModel().getSelectedItem();
 
         if (selectedBook != null) {
+            // Check if we're at the borrow limit
+            ArrayList<BookBorrow> currentlyBorrowed = bookBorrowController.searchPendingBookBorrowByMemberId(rightPnlLblId.getText());
+            int borrowedCount = (currentlyBorrowed != null) ? currentlyBorrowed.size() : 0;
+            int selectedCount = 0;
+            if (!txtId1.getText().isEmpty()) selectedCount++;
+            if (!txtId2.getText().isEmpty()) selectedCount++;
+            if (!txtId3.getText().isEmpty()) selectedCount++;
+
+            if (borrowedCount + selectedCount >= MAX_BOOKS_ALLOWED) {
+                showAlert(Alert.AlertType.WARNING, "Borrow Limit Reached",
+                        "You cannot borrow more than " + MAX_BOOKS_ALLOWED + " books",
+                        "You must return a book before selecting more.");
+                return;
+            }
+
             if (txtId1.getText().isEmpty()) {
                 txtId1.setText(selectedBook.get("id").toString());
                 txtName1.setText(selectedBook.get("name").toString());
@@ -371,50 +591,102 @@ public class Bookborrowform {
     }
 
     public void showPendingBooks() {
-        ArrayList<BookBorrow> bookBorrows = bookBorrowController.searchPendingBookBorrowByMemberId(rightPnlLblId.getText());
+        try {
+            ArrayList<BookBorrow> bookBorrows = bookBorrowController.searchPendingBookBorrowByMemberId(rightPnlLblId.getText());
 
-        // Check if bookBorrows is null or empty
-        if (bookBorrows == null || bookBorrows.isEmpty()) {
-            System.out.println("No pending books found.");
+            // Check if bookBorrows is null or empty
+            if (bookBorrows == null || bookBorrows.isEmpty()) {
+                System.out.println("No pending books found.");
+                clearPendingBookLabels();
+                return;
+            }
+
+            // Clear previous labels before updating
             clearPendingBookLabels();
-            return;
-        }
 
-        // Clear previous labels before updating
-        clearPendingBookLabels();
+            // Safely set labels with null checks
+            for (int i = 0; i < bookBorrows.size() && i < 3; i++) {
+                BookBorrow borrow = bookBorrows.get(i);
+                if (borrow != null && borrow.getBookId() != null) {
+                    Book book = bookController.searchBook(borrow.getBookId());
 
-        // Safely set labels with null checks
-        for (int i = 0; i < bookBorrows.size() && i < 3; i++) {
-            BookBorrow borrow = bookBorrows.get(i);
-            if (borrow != null && borrow.getBookId() != null) {
-                String bookId = borrow.getBookId();
+                    // Add null check for book
+                    if (book == null) {
+                        System.err.println("Book not found with ID: " + borrow.getBookId());
+                        continue;
+                    }
 
-                if (i == 0 && lblPBook1 != null) {
-                    lblPBook1.setText(bookId);
-                    btnReturnBook1.setDisable(false);
-                } else if (i == 1 && lblPBook2 != null) {
-                    lblPBook2.setText(bookId);
-                    btnReturnBook2.setDisable(false);
-                } else if (i == 2 && lblPBook3 != null) {
-                    lblPBook3.setText(bookId);
-                    btnReturnBook3.setDisable(false);
+                    if (i == 0 && lblPBook1 != null) {
+                        lblPBook1.setText(book.getName());
+                        btnReturnBook1.setDisable(false);
+                    } else if (i == 1 && lblPBook2 != null) {
+                        lblPBook2.setText(book.getName());
+                        btnReturnBook2.setDisable(false);
+                    } else if (i == 2 && lblPBook3 != null) {
+                        lblPBook3.setText(book.getName());
+                        btnReturnBook3.setDisable(false);
+                    }
                 }
             }
-        }
 
-        updateReturnButtonsState();
+            updateReturnButtonsState();
+            updateBorrowLimitDisplay();
+        } catch (Exception e) {
+            System.err.println("Error showing pending books: " + e.getMessage());
+            e.printStackTrace();
+            clearPendingBookLabels();
+        }
     }
 
     public void btnReturnBook1OnAction(ActionEvent actionEvent) {
-        returnBook(lblPBook1.getText());
+        try {
+            Book book = bookController.searchBookByName(lblPBook1.getText());
+            if (book != null && book.getId() != null) {
+                returnBook(book.getId());
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Error",
+                        "Book not found",
+                        "Unable to find book with name: " + lblPBook1.getText());
+            }
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "Failed to process return",
+                    "An error occurred: " + e.getMessage());
+        }
     }
 
     public void btnReturnBook2OnAction(ActionEvent actionEvent) {
-        returnBook(lblPBook2.getText());
+        try {
+            Book book = bookController.searchBookByName(lblPBook2.getText());
+            if (book != null && book.getId() != null) {
+                returnBook(book.getId());
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Error",
+                        "Book not found",
+                        "Unable to find book with name: " + lblPBook2.getText());
+            }
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "Failed to process return",
+                    "An error occurred: " + e.getMessage());
+        }
     }
 
     public void btnReturnBook3OnAction(ActionEvent actionEvent) {
-        returnBook(lblPBook3.getText());
+        try {
+            Book book = bookController.searchBookByName(lblPBook3.getText());
+            if (book != null && book.getId() != null) {
+                returnBook(book.getId());
+            } else {
+                showAlert(Alert.AlertType.ERROR, "Error",
+                        "Book not found",
+                        "Unable to find book with name: " + lblPBook3.getText());
+            }
+        } catch (Exception e) {
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "Failed to process return",
+                    "An error occurred: " + e.getMessage());
+        }
     }
 
     private void returnBook(String bookId) {
@@ -428,6 +700,16 @@ public class Bookborrowform {
         try {
             // Find the book borrow record
             ArrayList<BookBorrow> bookBorrows = bookBorrowController.searchPendingBookBorrowByMemberId(rightPnlLblId.getText());
+
+            // Add null check for bookBorrows
+            if (bookBorrows == null || bookBorrows.isEmpty()) {
+                showAlert(Alert.AlertType.ERROR, "Error",
+                        "No pending books found",
+                        "There are no pending books for this member.");
+                return;
+            }
+
+            System.out.println(bookBorrows);
             BookBorrow targetBorrow = null;
 
             for (BookBorrow borrow : bookBorrows) {
@@ -452,7 +734,21 @@ public class Bookborrowform {
             if (confirmReturn) {
                 // Mark the book as returned
                 targetBorrow.setIsReturned(true);
-                targetBorrow.setReturnDate(LocalDate.now().toString());
+                targetBorrow.setReturnedDate(LocalDate.now().toString());
+
+                // Update the book's availability status
+                Book book = bookController.searchBook(bookId);
+
+                // Add null check for book
+                if (book == null) {
+                    showAlert(Alert.AlertType.ERROR, "Error",
+                            "Book not found",
+                            "Could not find the book with ID: " + bookId);
+                    return;
+                }
+
+                book.setAvailability_status(true);
+                bookController.updateBook(book);
 
                 boolean success = bookBorrowController.updateBookBorrow(targetBorrow);
 
@@ -463,6 +759,8 @@ public class Bookborrowform {
 
                     // Refresh the pending books display
                     showPendingBooks();
+                    populateTable();
+                    updateBorrowLimitDisplay();
                 } else {
                     showAlert(Alert.AlertType.ERROR, "Error",
                             "Failed to return book",
@@ -471,6 +769,7 @@ public class Bookborrowform {
             }
         } catch (Exception e) {
             System.err.println("Error returning book: " + e.getMessage());
+            e.printStackTrace();
             showAlert(Alert.AlertType.ERROR, "Error",
                     "Failed to process book return",
                     "Error: " + e.getMessage());

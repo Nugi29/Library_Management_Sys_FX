@@ -43,7 +43,7 @@ public class BookController implements BookService {
             PreparedStatement preparedStatement = connection.prepareStatement(query);
             preparedStatement.setString(1, book.getName());
             preparedStatement.setString(2, book.getIsbn());
-            preparedStatement.setBoolean(3, Boolean.parseBoolean("true"));
+            preparedStatement.setBoolean(3, book.getAvailability_status());
             preparedStatement.setString(4, book.getCategory_id());
             preparedStatement.setString(5, book.getAuthor_id());
             preparedStatement.setString(6, book.getPublisher_id());
@@ -75,11 +75,52 @@ public class BookController implements BookService {
             Connection connection = DBConnection.getInstance().getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM book WHERE id=?");
             preparedStatement.setString(1, id);
-            return null;
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return new Book(
+                        resultSet.getString("id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("isbn"),
+                        resultSet.getBoolean("availability_status"),
+                        resultSet.getString("category_id"),
+                        resultSet.getString("author_id"),
+                        resultSet.getString("publisher_id")
+                );
+            }
+
+
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+        return null;
+    }
+    public Book searchBookByName(String name) {
 
+        try {
+
+            Connection connection = DBConnection.getInstance().getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("SELECT * FROM book WHERE name=?");
+            preparedStatement.setString(1, name);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                return new Book(
+                        resultSet.getString("id"),
+                        resultSet.getString("name"),
+                        resultSet.getString("isbn"),
+                        resultSet.getBoolean("availability_status"),
+                        resultSet.getString("category_id"),
+                        resultSet.getString("author_id"),
+                        resultSet.getString("publisher_id")
+                );
+            }
+
+
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
     }
 
     @Override
@@ -96,6 +137,35 @@ public class BookController implements BookService {
                     "JOIN category c ON b.category_id = c.id " +
                     "JOIN author a ON b.author_id = a.id " +
                     "JOIN publisher p ON b.publisher_id = p.id";
+
+            ResultSet resultSet = connection.createStatement().executeQuery(query);
+
+            while (resultSet.next()) {
+                Map<String, Object> bookData = new HashMap<>();
+                bookData.put("id", resultSet.getString("id"));
+                bookData.put("name", resultSet.getString("name"));
+                bookData.put("isbn", resultSet.getString("isbn"));
+                bookData.put("availability", resultSet.getBoolean("availability_status"));
+                bookData.put("category", resultSet.getString("category"));
+                bookData.put("author", resultSet.getString("author"));
+                bookData.put("publisher", resultSet.getString("publisher"));
+
+                bookList.add(bookData);
+            }
+            return bookList;
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    //---------------------------------------------------------------------------------------
+    public List<Map<String, Object>> getAllAvailable() {
+        try {
+            List<Map<String, Object>> bookList = new ArrayList<>();
+            Connection connection = DBConnection.getInstance().getConnection();
+
+            String query ="SELECT b.id, b.name, b.isbn, b.availability_status,c.name AS category,a.name AS author,p.name AS publisher FROM book b JOIN category c ON b.category_id = c.id  JOIN author a ON b.author_id = a.id JOIN publisher p ON b.publisher_id = p.id WHERE b.availability_status = 1";
+
 
             ResultSet resultSet = connection.createStatement().executeQuery(query);
 
