@@ -10,6 +10,5 @@ public interface CategoryService {
     boolean deleteCategory(String id);
     Category searchCategoryById(String id);
     Category searchCategoryByName(String name);
-
     List<Category> getAll();
 }

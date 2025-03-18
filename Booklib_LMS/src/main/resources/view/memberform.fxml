@@ -88,5 +88,10 @@
             <Font size="14.0" />
          </font>
       </JFXButton>
+      <JFXButton fx:id="btnBookBorrow" layoutX="38.0" layoutY="428.0" onAction="#btnBookBorrowOnAction" prefHeight="53.0" prefWidth="212.0" style="-fx-background-color: green; -fx-border-radius: 10px;" text="Borrow Books" textAlignment="CENTER">
+         <font>
+            <Font name="System Bold Italic" size="18.0" />
+         </font>
+      </JFXButton>
    </children>
 </AnchorPane>

@@ -92,7 +92,15 @@ public class DashboardFormController {
     }
 
     @FXML
-    void btnFineOnActon(ActionEvent event) {
+    void btnFineOnActon(ActionEvent event) throws IOException {
+        URL resource = this.getClass().getResource("/view/fineform.fxml");
+
+        assert resource != null;
+
+        Parent load = FXMLLoader.load(resource);
+
+        dashbordSubAnchor.getChildren().clear();
+        dashbordSubAnchor.getChildren().add(load);
 
     }
 
