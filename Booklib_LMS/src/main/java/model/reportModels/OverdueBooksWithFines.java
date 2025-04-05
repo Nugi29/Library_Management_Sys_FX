@@ -8,18 +8,24 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class AvailableBooks {
+public class OverdueBooksWithFines {
 
-    private String id;
+    private String borrow_id;
 
-    private String name;
+    private String book_id;
 
-    private String isbn;
+    private String book_name;
 
-    private String category;
+    private String member_name;
 
-    private String author;
+    private String contact;
 
-    private String publisher;
+    private String borrowed_date;
+
+    private String due_date;
+
+    private String overdue_days;
+
+    private String fine_amount;
 
 }

@@ -1,14 +1,96 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="$CONTROLLER_NAME$"
-            prefHeight="400.0" prefWidth="600.0" >
-
+<AnchorPane prefHeight="532.0" prefWidth="750.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controller.report.ReportformController">
+   <children>
+      <ImageView fitHeight="532.0" fitWidth="750.0" opacity="0.18">
+         <image>
+            <Image url="@../img/images.jpeg" />
+         </image>
+      </ImageView>
+      <TabPane layoutX="42.0" layoutY="40.0" prefHeight="486.0" prefWidth="682.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="All Available Books">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <TableView fx:id="abTblView" layoutX="-1.0" layoutY="14.0" prefHeight="416.0" prefWidth="682.0">
+                          <columns>
+                            <TableColumn fx:id="abcolid" prefWidth="87.99996948242188" text="ID" />
+                            <TableColumn fx:id="abcolname" prefWidth="166.40003967285156" text="Name" />
+                              <TableColumn fx:id="abcolisbn" prefWidth="108.79998779296875" text="ISBN" />
+                              <TableColumn fx:id="abcolpub" minWidth="0.0" prefWidth="109.60003662109375" text="Publisher" />
+                              <TableColumn fx:id="abcolcat" minWidth="0.0" prefWidth="104.0" text="Category" />
+                              <TableColumn fx:id="abcolaut" prefWidth="100.0" text="Author" />
+                          </columns>
+                        </TableView>
+                        <Label fx:id="lblAB" layoutX="309.0" layoutY="431.0" prefHeight="27.0" prefWidth="370.0">
+                           <font>
+                              <Font name="System Bold Italic" size="18.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="All Borrowed Books">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label fx:id="lblBB" layoutX="314.0" layoutY="426.0" prefHeight="27.0" prefWidth="354.0">
+                           <font>
+                              <Font name="System Bold Italic" size="18.0" />
+                           </font>
+                        </Label>
+                        <TableView fx:id="bbTblView" layoutX="-1.0" layoutY="14.0" prefHeight="408.0" prefWidth="682.0">
+                           <columns>
+                              <TableColumn fx:id="bbcolbroid" prefWidth="80.80001831054688" text="BORROW ID" />
+                              <TableColumn fx:id="bbcolbid" prefWidth="74.4000244140625" text="BOOK ID" />
+                              <TableColumn fx:id="bbcolbname" prefWidth="150.3999786376953" text="Book Name" />
+                              <TableColumn fx:id="bbcolmname" minWidth="0.0" prefWidth="148.0" text="Member Name" />
+                              <TableColumn fx:id="bbcolcon" minWidth="0.0" prefWidth="80.79998779296875" text="Contact" />
+                              <TableColumn fx:id="bbcolbrodate" prefWidth="72.7999267578125" text="Date" />
+                              <TableColumn fx:id="bbcolre" prefWidth="68.800048828125" text="isReterned" />
+                           </columns>
+                        </TableView>
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+            <Tab text=" Overdue Books">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label fx:id="lblOB" layoutX="346.0" layoutY="423.0" prefHeight="27.0" prefWidth="322.0">
+                           <font>
+                              <Font name="System Bold Italic" size="18.0" />
+                           </font>
+                        </Label>
+                        <TableView fx:id="obTblView" layoutX="-1.0" layoutY="14.0" prefHeight="403.0" prefWidth="682.0">
+                           <columns>
+                              <TableColumn fx:id="obcolbroid" prefWidth="75.19997787475586" text="BORROW ID" />
+                              <TableColumn fx:id="obcolbid" prefWidth="70.4000244140625" text="BOOK ID" />
+                              <TableColumn fx:id="obcolbname" prefWidth="105.60005187988281" text="Book Name" />
+                              <TableColumn fx:id="obcolmname" minWidth="0.0" prefWidth="104.0" text="Member Name" />
+                              <TableColumn fx:id="obcolcon" minWidth="0.0" prefWidth="74.4000244140625" text="Contact" />
+                              <TableColumn fx:id="obcolbrodate" prefWidth="72.79998779296875" text="Borrow" />
+                              <TableColumn fx:id="obcolduedate" prefWidth="72.79998779296875" text="Due" />
+                              <TableColumn fx:id="obcoloverdue" prefWidth="55.99993896484375" text="Overdue" />
+                              <TableColumn fx:id="obcolfine" prefWidth="47.2000732421875" text="fine" />
+                           </columns>
+                        </TableView>
+                     </children></AnchorPane>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
 </AnchorPane>

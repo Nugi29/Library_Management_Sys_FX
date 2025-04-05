@@ -8,18 +8,20 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class AvailableBooks {
+public class BorrowedBooks {
 
-    private String id;
+    private String borrow_id;
 
-    private String name;
+    private String book_id;
 
-    private String isbn;
+    private String book_name;
 
-    private String category;
+    private String member_name;
 
-    private String author;
+    private String contact;
 
-    private String publisher;
+    private String borrowed_date;
+
+    private String isReturned;
 
 }

@@ -9,6 +9,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import model.Category;
 import model.Publisher;
 
@@ -64,6 +65,13 @@ public class PublisherFormController {
     public void initialize() {
         populateTable();
         tblpublisherview.setOnMouseClicked(this::tblPublisherviewOnMouseClicked);
+
+
+
+        Stage stage = (Stage) tblpublisherview.getScene().getWindow();
+        stage.setTitle("Dashboard");
+        stage.setResizable(false);
+
     }
 
 

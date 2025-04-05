@@ -11,7 +11,7 @@ import java.util.List;
 
 public class FineController {
 
-    private static final double FINE_RATE_PER_DAY = 2;
+    public static final double FINE_RATE_PER_DAY = 2;
 
     // Create a new fine record
     public boolean createFine(Fine fine) {
