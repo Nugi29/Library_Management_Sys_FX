@@ -11,7 +11,14 @@ public class Starter extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("view/loginform.fxml"))));
+        stage.setTitle("Booklib LMS - Login Form");
+        stage.setResizable(false);
         stage.show();
+
+//        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("view/dashboard.fxml"))));
+//        stage.setTitle("Booklib LMS");
+//        stage.setResizable(false);
+//        stage.show();
 
     }
 }

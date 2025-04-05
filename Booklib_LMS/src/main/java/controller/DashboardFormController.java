@@ -8,6 +8,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
@@ -22,6 +23,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
 public class DashboardFormController {
+
 
     @FXML
     private Button btnAddNewAdmin;
@@ -42,19 +44,43 @@ public class DashboardFormController {
     private Button btnUserForm;
 
     @FXML
+    private PieChart chart;
+
+    @FXML
     private AnchorPane dashbordSubAnchor;
 
     @FXML
     private AnchorPane dashbordmainAnchor;
 
     @FXML
+    private Label lblBookCount;
+
+    @FXML
     private Label lblDate;
+
+    @FXML
+    private Label lblFine;
 
     @FXML
     private Label lblTime;
 
+    @FXML
+    private Label lblUserCount;
+
+    @FXML
+    private Label weather;
+
+    DashboardController dashboardController = new DashboardController();
+
+    String w = WeatherService.getWeather();
+
     public void initialize() {
         setDateAndTime();
+        setBookCount();
+        setUserCount();
+        setFineCount();
+        setChart();
+        weather.setText(w);
     }
 
     @FXML
@@ -81,17 +107,15 @@ public class DashboardFormController {
         dashbordmainAnchor.getChildren().add(load);
     }
 
-    // This method opens RegNewAdmin.fxml in a new window (Stage)
+
     @FXML
     void btnAddNewAdminOnAction(ActionEvent event) throws IOException {
         URL resource = this.getClass().getResource("/view/RegNewAdmin.fxml");
         assert resource != null;
         Parent load = FXMLLoader.load(resource);
-        Stage stage = new Stage();
-        stage.setScene(new Scene(load));
-        stage.setTitle("Register New Admin");
-        stage.setResizable(false);
-        stage.show();
+        dashbordSubAnchor.getChildren().clear();
+        dashbordSubAnchor.getChildren().add(load);
+
     }
 
     @FXML
@@ -154,4 +178,30 @@ public class DashboardFormController {
         timeline.setCycleCount(Animation.INDEFINITE);
         timeline.play();
     }
+
+    public void setBookCount() {
+        lblBookCount.setText(dashboardController.getTotalBookCount());
+    }
+    public void setUserCount() {
+        lblUserCount.setText(dashboardController.getTotalUserCount());
+    }
+    public void setFineCount() {
+        lblFine.setText(dashboardController.getTotalFineCount());
+    }
+    public void setChart() {
+
+        chart.getData().add(new PieChart.Data("Borrowed Books", dashboardController.getTotalBorrowedBooksCount()));
+        chart.getData().add(new PieChart.Data("Returned Books", dashboardController.getTotalReturnedBooksCount()));
+
+        chart.setTitle("Borrowed and Returned Books");
+        chart.setLabelLineLength(10);
+        chart.setLabelsVisible(true);
+        chart.setLegendVisible(true);
+        chart.setStartAngle(90);
+        chart.setClockwise(true);
+        chart.setAnimated(true);
+
+    }
+
+
 }

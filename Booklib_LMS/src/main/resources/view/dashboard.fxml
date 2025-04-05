@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.chart.PieChart?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -52,19 +54,77 @@
       <Label layoutX="58.0" layoutY="561.0" text="+94 123 456 789 " />
             <AnchorPane fx:id="dashbordSubAnchor" layoutX="206.0" layoutY="70.0" prefHeight="532.0" prefWidth="750.0">
          <children>
-            <ImageView fitHeight="532.0" fitWidth="750.0" opacity="0.22">
+            <ImageView fitHeight="532.0" fitWidth="750.0" opacity="0.17">
                <image>
                   <Image url="@../img/d2-Our-Vision-of-Leadership.jpg" />
                </image>
             </ImageView>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" height="70.0" layoutX="536.0" layoutY="90.0" opacity="0.42" stroke="BLACK" strokeType="INSIDE" width="177.0" />
+            <ImageView fitHeight="54.0" fitWidth="54.0" layoutX="544.0" layoutY="98.0">
+               <image>
+                  <Image url="@../img/profile.png" />
+               </image>
+            </ImageView>
+            <Separator layoutX="600.0" layoutY="98.0" orientation="VERTICAL" prefHeight="54.0" prefWidth="14.0" />
+            <Label layoutX="615.0" layoutY="97.0" text="Total User Base" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblUserCount" layoutX="625.0" layoutY="106.0" text="000" textFill="WHITE">
+               <font>
+                  <Font name="System Bold Italic" size="36.0" />
+               </font>
+            </Label>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" height="70.0" layoutX="535.0" layoutY="196.0" opacity="0.42" stroke="BLACK" strokeType="INSIDE" width="177.0" />
+            <Separator layoutX="599.0" layoutY="204.0" orientation="VERTICAL" prefHeight="54.0" prefWidth="14.0" />
+            <Label layoutX="609.0" layoutY="203.0" text="Total Book Count" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblBookCount" layoutX="624.0" layoutY="212.0" text="000" textFill="WHITE">
+               <font>
+                  <Font name="System Bold Italic" size="36.0" />
+               </font>
+            </Label>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" height="70.0" layoutX="504.0" layoutY="293.0" opacity="0.42" stroke="BLACK" strokeType="INSIDE" width="235.0" />
+            <Separator layoutX="568.0" layoutY="301.0" orientation="VERTICAL" prefHeight="54.0" prefWidth="14.0" />
+            <Label layoutX="599.0" layoutY="300.0" text="Total Fine Amount" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="12.0" />
+               </font>
+            </Label>
+            <Label fx:id="lblFine" layoutX="623.0" layoutY="309.0" prefHeight="54.0" prefWidth="106.0" text="00000" textFill="WHITE">
+               <font>
+                  <Font name="System Bold Italic" size="36.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="54.0" fitWidth="54.0" layoutX="542.0" layoutY="204.0">
+               <image>
+                  <Image url="@../img/bok.png" />
+               </image>
+            </ImageView>
+            <Label layoutX="582.0" layoutY="312.0" text="Rs." textFill="WHITE">
+               <font>
+                  <Font name="System Bold Italic" size="30.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="54.0" fitWidth="54.0" layoutX="509.0" layoutY="301.0">
+               <image>
+                  <Image url="@../img/amount-icon-5-358988924.png" />
+               </image>
+            </ImageView>
+            <Rectangle arcHeight="5.0" arcWidth="5.0" height="402.0" layoutX="28.0" layoutY="38.0" opacity="0.11" stroke="BLACK" strokeType="INSIDE" width="438.0" />
+            <PieChart fx:id="chart" layoutX="28.0" layoutY="30.0" prefHeight="401.0" prefWidth="437.0" title="Borrowed &amp; Reterned Books" titleSide="BOTTOM" />
          </children></AnchorPane>
-      <Rectangle arcHeight="5.0" arcWidth="5.0" height="54.0" layoutX="729.0" layoutY="9.0" opacity="0.42" stroke="BLACK" strokeType="INSIDE" width="217.0" />
-      <Label fx:id="lblTime" layoutX="802.0" layoutY="16.0" text="hh:mm:ss AM " textFill="WHITE">
+      <Rectangle arcHeight="5.0" arcWidth="5.0" height="54.0" layoutX="708.0" layoutY="9.0" opacity="0.42" stroke="BLACK" strokeType="INSIDE" width="217.0" />
+      <Label fx:id="lblTime" layoutX="781.0" layoutY="16.0" text="hh:mm:ss AM " textFill="WHITE">
          <font>
             <Font name="System Bold Italic" size="13.0" />
          </font>
       </Label>
-      <Label fx:id="lblDate" layoutX="758.0" layoutY="36.0" text="eeee, mmmm dd, yyyy" textFill="WHITE">
+      <Label fx:id="lblDate" layoutX="737.0" layoutY="36.0" text="eeee, mmmm dd, yyyy" textFill="WHITE">
          <font>
             <Font name="System Bold Italic" size="13.0" />
          </font>
@@ -74,6 +134,21 @@
             <Image url="@../img/pngwing.com%20(2).png" />
          </image>
       </ImageView>
+      <Label fx:id="weather" layoutX="231.0" layoutY="33.0" prefHeight="32.0" prefWidth="438.0" text="🌤️ 27°C Today | Colombo →  💨 Wind: 10km/h →  💧 Humidity: 78%" textFill="WHITE">
+         <font>
+            <Font size="14.0" />
+         </font>
+      </Label>
+      <Label layoutX="232.0" layoutY="3.0" text="Booklib Library Management System" textFill="#6e6e6e" underline="true">
+         <font>
+            <Font name="System Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label layoutX="48.0" layoutY="590.0" text="System Developed By @Nugi29">
+         <font>
+            <Font size="8.0" />
+         </font>
+      </Label>
 
          </children>
       </AnchorPane>

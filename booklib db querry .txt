@@ -1,340 +1,179 @@
-create database booklib;
-use booklib;
-
--- Table: member
-CREATE TABLE member (
-    id VARCHAR(6) PRIMARY KEY AUTO_INCREMENT,
-    nic VARCHAR(12) UNIQUE,
-    name VARCHAR(45),
-    address TEXT,
-    membershipDate DATE,
-    contact VARCHAR(12)
-);
-
--- Table: author
-CREATE TABLE author (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(45),
-    contact VARCHAR(12)
-);
-
-
-
--- Table: publisher
-CREATE TABLE publisher (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(45),
-    location TEXT,
-    contact VARCHAR(12)
-);
-
--- Table: category
-CREATE TABLE category (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    name VARCHAR(25)
-);
-
--- Table: book
-CREATE TABLE book (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    isbn VARCHAR(13),
-    name VARCHAR(20),
-    price DECIMAL(10,2),
-    publisher_id INT,
-    main_category_id INT,
-    FOREIGN KEY (publisher_id) REFERENCES publisher(id),
-    FOREIGN KEY (main_category_id) REFERENCES category(id)
-);
-
--- Table: sub_categories (Many-to-Many Relationship)
-CREATE TABLE sub_categories (
-    book_id INT,
-    category_id INT,
-    PRIMARY KEY (book_id, category_id),
-    FOREIGN KEY (book_id) REFERENCES book(id),
-    FOREIGN KEY (category_id) REFERENCES category(id)
-);
-
--- Table: book_records
-CREATE TABLE book_records (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    book_id INT,
-    member_id VARCHAR(6),
-    borrowed_date DATE,
-    isReturned TINYINT(1),
-    returnDate DATE,
-    returnedDate DATE,
-    FOREIGN KEY (book_id) REFERENCES book(id),
-    FOREIGN KEY (member_id) REFERENCES member(id)
-);
-
--- Table: book_author (Many-to-Many Relationship)
-CREATE TABLE book_author (
-    book_id INT,
-    author_id INT,
-    PRIMARY KEY (book_id, author_id),
-    FOREIGN KEY (book_id) REFERENCES book(id),
-    FOREIGN KEY (author_id) REFERENCES author(id)
-);
-
--- Table: admin
-CREATE TABLE admin (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    username VARCHAR(10),
-    email VARCHAR(45),
-    password VARCHAR(25)
-);
-
--- Table: fine
-CREATE TABLE fine (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    amount DECIMAL(10,2),
-    date_count SMALLINT,
-    book_record_id INT,
-    admin_id INT,
-    FOREIGN KEY (book_record_id) REFERENCES book_records(id),
-    FOREIGN KEY (admin_id) REFERENCES admin(id)
-);
-
-
 -- Insert into admin
-INSERT INTO admin (id, username, email, password) VALUES
+INSERT INTO admin (id, username, email, password) VALUES 
 (1, 'admin', 'admin@gmail.com', '1234'),
-(2, 'admin2', 'admin2@gmail.com', 'securepass456');
+(2, 'admin2', 'admin2@gmail.com', 'securepass456'),
+(3, 'librarian1', 'librarian1@gmail.com', 'lib123pass'),
+(4, 'manager', 'manager@gmail.com', 'mgr@456'),
+(5, 'sysadmin', 'sysadmin@gmail.com', 'sys$admin789');
 
-INSERT INTO category (id, name) VALUES
+-- Insert into category
+INSERT INTO category (id, name) VALUES 
 ('FIC-01', 'Fiction'),
-('SCI-02', 'Science Fiction'),
-('HIS-03', 'History'),
-('BIO-04', 'Biography'),
-('MYS-05', 'Mystery'),
-('ROM-06', 'Romance'),
-('ADV-07', 'Adventure'),
-('PHI-08', 'Philosophy'),
-('HOR-09', 'Horror'),
-('POE-10', 'Poetry'),
-('THR-11', 'Thriller'),
-('DRM-12', 'Drama'),
-('FAN-13', 'Fantasy'),
-('ART-14', 'Art'),
-('EDU-15', 'Education'),
-('REL-16', 'Religion'),
-('BUS-17', 'Business'),
-('SPO-18', 'Sports'),
-('TEC-19', 'Technology'),
-('HEA-20', 'Health & Wellness');
+('NON-01', 'Non-Fiction'),
+('SCI-01', 'Science'),
+('HIS-01', 'History'),
+('BIO-01', 'Biography'),
+('CHI-01', 'Children'),
+('ADV-01', 'Adventure'),
+('ROM-01', 'Romance'),
+('THR-01', 'Thriller'),
+('SCI-02', 'Science Fiction');
 
-
-INSERT INTO author (id, name, contact) VALUES
+-- Insert into author
+INSERT INTO author (id, name, contact) VALUES 
 ('A001', 'Martin Wickramasinghe', '0719876543'),
-('A002', 'Gunadasa Amarasekara', '0774567890'),
-('A003', 'K. Jayathilaka', '0723456789'),
-('A004', 'T.B. Ilangaratne', '0712345678'),
-('A005', 'Ediriweera Sarachchandra', '0756789012'),
-('A006', 'Chandraratna Bandara', '0765432109'),
-('A007', 'W.A. Silva', '0789012345'),
-('A008', 'Simon Nawagattegama', '0743210987'),
-('A009', 'Ajith Thilakasena', '0732109876'),
-('A010', 'Siri Gunasinghe', '0798765432'),
-('A011', 'Saman Wickramaarachchi', '0709876543'),
-('A012', 'Daya Dissanayake', '0787654321'),
-('A013', 'Rohana Wijeweera', '0712340987'),
-('A014', 'E.K. Jayawardena', '0775432167'),
-('A015', 'Vijitha Weerasinghe', '0793216547');
+('A002', 'Arthur Conan Doyle', '0712345678'),
+('A003', 'Jane Austen', '0723456789'),
+('A004', 'J.K. Rowling', '0734567890'),
+('A005', 'George Orwell', '0745678901'),
+('A006', 'Ediriweera Sarachchandra', '0756789012'),
+('A007', 'Gabriel Garcia Marquez', '0767890123'),
+('A008', 'Leo Tolstoy', '0778901234'),
+('A009', 'Agatha Christie', '0789012345'),
+('A010', 'Haruki Murakami', '0790123456');
 
-INSERT INTO publisher (id, name, location, contact) VALUES
+-- Insert into publisher
+INSERT INTO publisher (id, name, location, contact) VALUES 
 ('P001', 'Sarasavi Publishers', 'Colombo', '0112345678'),
-('P002', 'M. D. Gunasena', 'Colombo', '0118765432'),
-('P003', 'Sooriya Publishers', 'Kandy', '0817654321'),
-('P004', 'Godage Publishers', 'Colombo', '0117654321'),
-('P005', 'Dayawansa Jayakody', 'Nugegoda', '0115566778'),
-('P006', 'Vijitha Yapa Publications', 'Colombo', '0116789012'),
-('P007', 'Fast Publishers', 'Negombo', '0312345678'),
-('P008', 'Neptune Publications', 'Galle', '0912345678'),
-('P009', 'Samanthi Publishers', 'Kurunegala', '0378765432'),
-('P010', 'Samudra Publishers', 'Matara', '0419876543'),
-('P011', 'Wisdom Publishers', 'Colombo', '0113456789'),
-('P012', 'Golden Pages', 'Jaffna', '0211234567'),
-('P013', 'Rathna Publishers', 'Colombo', '0112233445'),
-('P014', 'Everest Publications', 'Kandy', '0812345678'),
-('P015', 'Sunshine Books', 'Galle', '0918765432'),
-('P016', 'Lake House Publishing', 'Colombo', '0119988776'),
-('P017', 'Modern Publishers', 'Kurunegala', '0371234567'),
-('P018', 'Rainbow Publications', 'Matara', '0417654321'),
-('P019', 'New Horizon Publishers', 'Negombo', '0319876543'),
-('P020', 'Pearl Publications', 'Jaffna', '0219876543');
+('P002', 'Godage Publishers', 'Colombo', '0112345679'),
+('P003', 'Penguin Books', 'London', '0112345680'),
+('P004', 'Vijitha Yapa Publishers', 'Colombo', '0112345681'),
+('P005', 'HarperCollins', 'New York', '0112345682'),
+('P006', 'Oxford University Press', 'Oxford', '0112345683'),
+('P007', 'Macmillan Publishers', 'London', '0112345684'),
+('P008', 'Random House', 'New York', '0112345685'),
+('P009', 'Bloomsbury Publishing', 'London', '0112345686'),
+('P010', 'S. Godage & Brothers', 'Colombo', '0112345687');
 
-
-INSERT INTO member (id, name, address, email, contact) VALUES
+-- Insert into member (30 examples)
+INSERT INTO member (id, name, address, email, contact) VALUES 
 ('M001', 'Kumara Perera', 'Colombo, Sri Lanka', 'kumara.perera@gmail.com', '0712345678'),
 ('M002', 'Sandipa Gunasekara', 'Galle, Sri Lanka', 'sandipa.g@gmail.com', '0776543210'),
-('M003', 'Nuwan Bandara', 'Kandy, Sri Lanka', 'nuwan.bandara@yahoo.com', '0719876543'),
-('M004', 'Kasun Silva', 'Kurunegala, Sri Lanka', 'kasun.silva@hotmail.com', '0701234567'),
-('M005', 'Dilini Wijesinghe', 'Matara, Sri Lanka', 'dilini.w@gmail.com', '0779876543'),
-('M006', 'Tharindu Jayasinghe', 'Anuradhapura, Sri Lanka', 'tharindu.jay@gmail.com', '0724567890'),
-('M007', 'Janith Fernando', 'Gampaha, Sri Lanka', 'janith.fernando@outlook.com', '0756789012'),
-('M008', 'Prabath Senanayake', 'Negombo, Sri Lanka', 'prabath.sena@gmail.com', '0713456789'),
-('M009', 'Shanika de Silva', 'Jaffna, Sri Lanka', 'shanika.des@gmail.com', '0781234567'),
-('M010', 'Nadeesha Karunaratne', 'Ratnapura, Sri Lanka', 'nadeesha.k@yahoo.com', '0798765432'),
-('M011', 'Ravindu Ekanayake', 'Colombo, Sri Lanka', 'ravindu.eka@gmail.com', '0711112233'),
-('M012', 'Isuru Samarasinghe', 'Galle, Sri Lanka', 'isuru.sama@outlook.com', '0745678901'),
-('M013', 'Chathurika Herath', 'Kandy, Sri Lanka', 'chathu.herath@gmail.com', '0776547890'),
-('M014', 'Mahesh Abeykoon', 'Kurunegala, Sri Lanka', 'mahesh.a@hotmail.com', '0709871234'),
-('M015', 'Gayan Liyanage', 'Matara, Sri Lanka', 'gayan.liya@gmail.com', '0723456789'),
-('M016', 'Lakshan Perera', 'Anuradhapura, Sri Lanka', 'lakshan.p@gmail.com', '0712233445'),
-('M017', 'Sachini Dissanayake', 'Gampaha, Sri Lanka', 'sachini.dissa@yahoo.com', '0787654321'),
-('M018', 'Roshan Wijeratne', 'Negombo, Sri Lanka', 'roshan.wije@gmail.com', '0743210987'),
-('M019', 'Thilini Madushani', 'Jaffna, Sri Lanka', 'thilini.madu@hotmail.com', '0754321098'),
-('M020', 'Supun Jayawardena', 'Ratnapura, Sri Lanka', 'supun.jay@gmail.com', '0734567890'),
-('M021', 'Harsha Peiris', 'Colombo, Sri Lanka', 'harsha.p@hotmail.com', '0715566778'),
-('M022', 'Yasith Ranasinghe', 'Galle, Sri Lanka', 'yasith.rana@gmail.com', '0767890123'),
-('M023', 'Chamath Weerasinghe', 'Kandy, Sri Lanka', 'chamath.w@gmail.com', '0778901234'),
-('M024', 'Rashmi Fernando', 'Kurunegala, Sri Lanka', 'rashmi.f@gmail.com', '0702345678'),
-('M025', 'Pasan Gunawardena', 'Matara, Sri Lanka', 'pasan.guna@gmail.com', '0744567890'),
-('M026', 'Nishadi Alwis', 'Anuradhapura, Sri Lanka', 'nishadi.a@gmail.com', '0711234567'),
-('M027', 'Dilan Silva', 'Gampaha, Sri Lanka', 'dilan.silva@yahoo.com', '0789876543'),
-('M028', 'Dinusha Hettiarachchi', 'Negombo, Sri Lanka', 'dinusha.h@gmail.com', '0732109876'),
-('M029', 'Shehan Samarawickrama', 'Jaffna, Sri Lanka', 'shehan.sam@gmail.com', '0756782345'),
-('M030', 'Udani Senanayake', 'Ratnapura, Sri Lanka', 'udani.sena@gmail.com', '0723450987'),
-('M031', 'Suresh Perera', 'Colombo, Sri Lanka', 'suresh.p@gmail.com', '0719087654'),
-('M032', 'Harini Dissanayake', 'Galle, Sri Lanka', 'harini.d@gmail.com', '0741234567'),
-('M033', 'Ruwan Alahakoon', 'Kandy, Sri Lanka', 'ruwan.ala@gmail.com', '0774321098'),
-('M034', 'Kasuni Wijesinghe', 'Kurunegala, Sri Lanka', 'kasuni.wije@gmail.com', '0709988776'),
-('M035', 'Amila Senarath', 'Matara, Sri Lanka', 'amila.sen@gmail.com', '0745566778'),
-('M036', 'Damith Karunathilaka', 'Anuradhapura, Sri Lanka', 'damith.k@gmail.com', '0716543210'),
-('M037', 'Samantha Jayasuriya', 'Gampaha, Sri Lanka', 'samantha.j@gmail.com', '0782233445'),
-('M038', 'Praveen Ekanayake', 'Negombo, Sri Lanka', 'praveen.e@gmail.com', '0737890123'),
-('M039', 'Lahiru Rathnayake', 'Jaffna, Sri Lanka', 'lahiru.r@gmail.com', '0751122334'),
-('M040', 'Senuri Fernando', 'Ratnapura, Sri Lanka', 'senuri.f@gmail.com', '0723344556'),
-('M041', 'Nadeera Dissanayake', 'Colombo, Sri Lanka', 'nadeera.d@gmail.com', '0710099887'),
-('M042', 'Dineth Madushan', 'Galle, Sri Lanka', 'dineth.m@gmail.com', '0745566001'),
-('M043', 'Chandana Peris', 'Kandy, Sri Lanka', 'chandana.p@gmail.com', '0771029384'),
-('M044', 'Vimukthi Abeyratne', 'Kurunegala, Sri Lanka', 'vimukthi.a@gmail.com', '0707654321'),
-('M045', 'Tharaka Silva', 'Matara, Sri Lanka', 'tharaka.s@gmail.com', '0749098765'),
-('M046', 'Malith Jayawardene', 'Anuradhapura, Sri Lanka', 'malith.j@gmail.com', '0712003004'),
-('M047', 'Nirmali Senevirathne', 'Gampaha, Sri Lanka', 'nirmali.s@gmail.com', '0789871234'),
-('M048', 'Bhagya Wijesundara', 'Negombo, Sri Lanka', 'bhagya.w@gmail.com', '0735556667'),
-('M049', 'Sanjeewa Rathnayake', 'Jaffna, Sri Lanka', 'sanjeewa.r@gmail.com', '0751234560'),
-('M050', 'Gayani Senarath', 'Ratnapura, Sri Lanka', 'gayani.s@gmail.com', '0727896543');
+('M003', 'Ishara Fernando', 'Kandy, Sri Lanka', 'ishara.f@gmail.com', '0723456789'),
+('M004', 'Nimal Silva', 'Matara, Sri Lanka', 'nimal.s@gmail.com', '0734567890'),
+('M005', 'Priyanka Jayawardena', 'Negombo, Sri Lanka', 'priyanka.j@gmail.com', '0745678901'),
+('M006', 'Lakshmi Ratnayake', 'Kurunegala, Sri Lanka', 'lakshmi.r@gmail.com', '0756789012'),
+('M007', 'Thilina Dissanayake', 'Anuradhapura, Sri Lanka', 'thilina.d@gmail.com', '0767890123'),
+('M008', 'Malini Seneviratne', 'Jaffna, Sri Lanka', 'malini.s@gmail.com', '0778901234'),
+('M009', 'Dinesh Rajapaksa', 'Badulla, Sri Lanka', 'dinesh.r@gmail.com', '0789012345'),
+('M010', 'Chamari Weerasinghe', 'Ratnapura, Sri Lanka', 'chamari.w@gmail.com', '0790123456'),
+('M011', 'Asanka Bandara', 'Colombo, Sri Lanka', 'asanka.b@gmail.com', '0712345679'),
+('M012', 'Nilmini Peris', 'Gampaha, Sri Lanka', 'nilmini.p@gmail.com', '0723456780'),
+('M013', 'Rohan De Silva', 'Kalutara, Sri Lanka', 'rohan.ds@gmail.com', '0734567891'),
+('M014', 'Shashika Mendis', 'Kegalle, Sri Lanka', 'shashika.m@gmail.com', '0745678902'),
+('M015', 'Gayani Wickramasinghe', 'Galle, Sri Lanka', 'gayani.w@gmail.com', '0756789013'),
+('M016', 'Kamal Gunaratne', 'Matara, Sri Lanka', 'kamal.g@gmail.com', '0767890124'),
+('M017', 'Dilini Jayasekara', 'Hambantota, Sri Lanka', 'dilini.j@gmail.com', '0778901235'),
+('M018', 'Ruwan Pathirana', 'Monaragala, Sri Lanka', 'ruwan.p@gmail.com', '0789012346'),
+('M019', 'Anura Kumara', 'Ampara, Sri Lanka', 'anura.k@gmail.com', '0790123457'),
+('M020', 'Shanika Ranasinghe', 'Batticaloa, Sri Lanka', 'shanika.r@gmail.com', '0712345680'),
+('M021', 'Prasad Fonseka', 'Trincomalee, Sri Lanka', 'prasad.f@gmail.com', '0723456781'),
+('M022', 'Janaki Kariyawasam', 'Mullaitivu, Sri Lanka', 'janaki.k@gmail.com', '0734567892'),
+('M023', 'Geeth Wijesinghe', 'Vavuniya, Sri Lanka', 'geeth.w@gmail.com', '0745678903'),
+('M024', 'Samanthi Nanayakkara', 'Mannar, Sri Lanka', 'samanthi.n@gmail.com', '0756789014'),
+('M025', 'Amila Jayatilleke', 'Kilinochchi, Sri Lanka', 'amila.j@gmail.com', '0767890125'),
+('M026', 'Nadeesha Gunathilaka', 'Polonnaruwa, Sri Lanka', 'nadeesha.g@gmail.com', '0778901236'),
+('M027', 'Buddhika Samaraweera', 'Anuradhapura, Sri Lanka', 'buddhika.s@gmail.com', '0789012347'),
+('M028', 'Dulani Rajarathna', 'Puttalam, Sri Lanka', 'dulani.r@gmail.com', '0790123458'),
+('M029', 'Chathura Herath', 'Kurunegala, Sri Lanka', 'chathura.h@gmail.com', '0712345681'),
+('M030', 'Anusha Weerakoon', 'Kandy, Sri Lanka', 'anusha.w@gmail.com', '0723456782');
 
-INSERT INTO book (id, name, isbn, availability_status, publisher_id, category_id, author_id) VALUES
+
+-- Insert into book (30 examples)
+INSERT INTO book (id, name, isbn, availability_status, publisher_id, category_id, author_id) VALUES 
 ('24000001', 'Gamperaliya', '9789553118424', 1, 'P001', 'FIC-01', 'A001'),
-('24000002', 'Viragaya', '9789553118431', 1, 'P002', 'FIC-01', 'A001'),
-('24000003', 'Madol Duwa', '9789553118448', 1, 'P003', 'ADV-07', 'A001'),
-('24000004', 'Yuganthaya', '9789553118455', 1, 'P004', 'FIC-01', 'A001'),
-('24000005', 'Ape Gama', '9789553118462', 1, 'P005', 'FIC-01', 'A001'),
-('24000006', 'Karumakkarayo', '9789553118479', 1, 'P001', 'DRM-12', 'A002'),
-('24000007', 'Yali Upannemi', '9789553118486', 1, 'P002', 'FIC-01', 'A002'),
-('24000008', 'Gandhabba Apadanaya', '9789553118493', 1, 'P003', 'FIC-01', 'A002'),
-('24000009', 'Malagiya Aththo', '9789553118509', 1, 'P004', 'FIC-01', 'A002'),
-('24000010', 'Depa Nokiya Heta', '9789553118516', 1, 'P005', 'FIC-01', 'A003'),
-('24000011', 'Malavunge Avurudu Da', '9789553118523', 1, 'P006', 'FIC-01', 'A004'),
-('24000012', 'Amba Yaluwo', '9789553118530', 1, 'P007', 'FIC-01', 'A004'),
-('24000013', 'Sasara Gira', '9789553118547', 1, 'P008', 'FIC-01', 'A004'),
-('24000014', 'Malagiya Miniyo', '9789553118554', 1, 'P009', 'FIC-01', 'A005'),
-('24000015', 'Pemato Jayati Soko', '9789553118561', 1, 'P010', 'DRM-12', 'A005'),
-('24000016', 'Ratnapala', '9789553118578', 1, 'P011', 'FIC-01', 'A007'),
-('24000017', 'Hingana Kolla', '9789553118585', 1, 'P012', 'FIC-01', 'A007'),
-('24000018', 'Lakshmi Gehenu', '9789553118592', 1, 'P013', 'FIC-01', 'A007'),
-('24000019', 'Vijayaba Kollaya', '9789553118608', 1, 'P014', 'HIS-03', 'A007'),
-('24000020', 'Kelani Palama', '9789553118615', 1, 'P015', 'FIC-01', 'A007'),
-('24000021', 'Manosandha', '9789553118622', 1, 'P016', 'FIC-01', 'A005'),
-('24000022', 'Malwarige Awurudu Da', '9789553118639', 1, 'P017', 'FIC-01', 'A004'),
-('24000023', 'Ran Salu', '9789553118646', 1, 'P018', 'FIC-01', 'A004'),
-('24000024', 'Sudu Saha Kalu', '9789553118653', 1, 'P019', 'FIC-01', 'A001'),
-('24000025', 'Kaliyugaya', '9789553118660', 1, 'P020', 'FIC-01', 'A002'),
-('24000026', 'Pitagamkarayo', '9789553118677', 1, 'P001', 'FIC-01', 'A001'),
-('24000027', 'Ahasin Polowata', '9789553118684', 1, 'P002', 'FIC-01', 'A008'),
-('24000028', 'Suba Saha Yasa', '9789553118691', 1, 'P003', 'FIC-01', 'A008'),
-('24000029', 'Palagiya Kurullo', '9789553118707', 1, 'P004', 'FIC-01', 'A009'),
-('24000030', 'Hevanella', '9789553118714', 1, 'P005', 'FIC-01', 'A009'),
-('24000031', 'Mandarama', '9789553118721', 1, 'P006', 'POE-10', 'A010'),
-('24000032', 'Abhinikmana', '9789553118738', 1, 'P007', 'POE-10', 'A010'),
-('24000033', 'Ratu Kekulu', '9789553118745', 1, 'P008', 'FIC-01', 'A011'),
-('24000034', 'Wasana', '9789553118752', 1, 'P009', 'FIC-01', 'A012'),
-('24000035', 'Anantha', '9789553118769', 1, 'P010', 'FIC-01', 'A012'),
-('24000036', 'Kalu Kumaraya', '9789553118776', 1, 'P011', 'FIC-01', 'A007'),
-('24000037', 'Radala Piliruwa', '9789553118783', 1, 'P012', 'FIC-01', 'A007'),
-('24000038', 'Daetha Kandulu', '9789553118790', 1, 'P013', 'FIC-01', 'A004'),
-('24000039', 'Mahagedara', '9789553118806', 1, 'P014', 'FIC-01', 'A004'),
-('24000040', 'Wahalak Nathi Geyak', '9789553118813', 1, 'P015', 'FIC-01', 'A015'),
-('24000041', 'Paradeesaya', '9789553118820', 1, 'P016', 'FIC-01', 'A002'),
-('24000042', 'Asathya Kathawa', '9789553118837', 1, 'P017', 'FIC-01', 'A002'),
-('24000043', 'Minisa Saha Kaputa', '9789553118844', 1, 'P018', 'FIC-01', 'A008'),
-('24000044', 'Bhava Geetha', '9789553118851', 1, 'P019', 'POE-10', 'A010'),
-('24000045', 'Bhava Taranaya', '9789553118868', 1, 'P020', 'FIC-01', 'A005'),
-('24000046', 'Sath Samudura', '9789553118875', 1, 'P001', 'ADV-07', 'A007'),
-('24000047', 'Veera Puran Appu', '9789553118882', 1, 'P002', 'HIS-03', 'A014'),
-('24000048', 'Magul Kema', '9789553118899', 1, 'P003', 'FIC-01', 'A004'),
-('24000049', 'Weda Hamine', '9789553118905', 1, 'P004', 'FIC-01', 'A007'),
-('24000050', 'Mayura Sandeshaya', '9789553118912', 1, 'P005', 'POE-10', 'A005'),
-('24000051', 'Devana Lova', '9789553118929', 1, 'P006', 'FIC-01', 'A013'),
-('24000052', 'Dunhinda Sannapuwa', '9789553118936', 1, 'P007', 'HIS-03', 'A011'),
-('24000053', 'Golu Hadawatha', '9789553118943', 1, 'P008', 'ROM-06', 'A005'),
-('24000054', 'Diya Kumari', '9789553118950', 1, 'P009', 'FIC-01', 'A007'),
-('24000055', 'Mathaka Walawwa', '9789553118967', 1, 'P010', 'FIC-01', 'A007'),
-('24000056', 'Sudu Sevanali', '9789553118974', 1, 'P011', 'FIC-01', 'A009'),
-('24000057', 'Bawa Tharanaya', '9789553118981', 1, 'P012', 'DRM-12', 'A005'),
-('24000058', 'Kele Handa', '9789553118998', 1, 'P013', 'FIC-01', 'A001'),
-('24000059', 'Mahaweli Gammanaya', '9789553119001', 1, 'P014', 'FIC-01', 'A002'),
-('24000060', 'Sansaranyaye Dharuwo', '9789553119018', 1, 'P015', 'FIC-01', 'A014'),
-('24000061', 'Theravili', '9789553119025', 1, 'P016', 'FIC-01', 'A008'),
-('24000062', 'Pavana Yamak', '9789553119032', 1, 'P017', 'POE-10', 'A010'),
-('24000063', 'Dedunna', '9789553119049', 1, 'P018', 'FIC-01', 'A012'),
-('24000064', 'Amaraneeya Dulada', '9789553119056', 1, 'P019', 'ROM-06', 'A004'),
-('24000065', 'Wes Muhunu', '9789553119063', 1, 'P020', 'DRM-12', 'A005'),
-('24000066', 'Maha Viyavula', '9789553119070', 1, 'P001', 'FIC-01', 'A002'),
-('24000067', 'Kali Yugaya', '9789553119087', 1, 'P002', 'FIC-01', 'A001'),
-('24000068', 'Randiya Gini', '9789553119094', 1, 'P003', 'FIC-01', 'A007'),
-('24000069', 'Samudra Devi', '9789553119100', 1, 'P004', 'FIC-01', 'A007'),
-('24000070', 'Giri Shikharaye', '9789553119117', 1, 'P005', 'ADV-07', 'A015'),
-('24000071', 'Bambaru Ewith', '9789553119124', 1, 'P006', 'FIC-01', 'A003'),
-('24000072', 'Lasanda', '9789553119131', 1, 'P007', 'ROM-06', 'A004'),
-('24000073', 'Sudu Hansayo', '9789553119148', 1, 'P008', 'POE-10', 'A010'),
-('24000074', 'Mage Katha', '9789553119155', 1, 'P009', 'BIO-04', 'A013'),
-('24000075', 'Magul Gedara', '9789553119162', 1, 'P010', 'DRM-12', 'A004'),
-('24000076', 'Kadulla', '9789553119179', 1, 'P011', 'FIC-01', 'A009'),
-('24000077', 'Diyamanthi', '9789553119186', 1, 'P012', 'FIC-01', 'A007'),
-('24000078', 'Rekawa', '9789553119193', 1, 'P013', 'FIC-01', 'A005'),
-('24000079', 'Sanda Diya Mankada', '9789553119209', 1, 'P014', 'FIC-01', 'A001'),
-('24000080', 'Wasana Wahi', '9789553119216', 1, 'P015', 'FIC-01', 'A012'),
-('24000081', 'Aparadaya saha Danduwama', '9789553119223', 1, 'P016', 'FIC-01', 'A002'),
-('24000082', 'Magul Kaema', '9789553119230', 1, 'P017', 'FIC-01', 'A004'),
-('24000083', 'Mihikatha', '9789553119247', 1, 'P018', 'FIC-01', 'A008'),
-('24000084', 'Sarama', '9789553119254', 1, 'P019', 'FIC-01', 'A005'),
-('24000085', 'Peraliya', '9789553119261', 1, 'P020', 'FIC-01', 'A001'),
-('24000086', 'Mahasara', '9789553119278', 1, 'P001', 'FIC-01', 'A001'),
-('24000087', 'Ginidel', '9789553119285', 1, 'P002', 'FIC-01', 'A007'),
-('24000088', 'Sada Mehe', '9789553119292', 1, 'P003', 'FIC-01', 'A004'),
-('24000089', 'Janamadyama Viplavaya', '9789553119308', 1, 'P004', 'EDU-15', 'A013'),
-('24000090', 'Daskam', '9789553119315', 1, 'P005', 'POE-10', 'A010'),
-('24000091', 'Panamaliye', '9789553119322', 1, 'P006', 'FIC-01', 'A008'),
-('24000092', 'Manuthapaya', '9789553119339', 1, 'P007', 'FIC-01', 'A002'),
-('24000093', 'Sulanga Wage Avidin', '9789553119346', 1, 'P008', 'FIC-01', 'A015'),
-('24000094', 'Magul Gedara', '9789553119353', 1, 'P009', 'DRM-12', 'A005'),
-('24000095', 'Mangul Birinda', '9789553119360', 1, 'P010', 'FIC-01', 'A007'),
-('24000096', 'Rathu Rosa Mal', '9789553119377', 1, 'P011', 'ROM-06', 'A004'),
-('24000097', 'Mawatha', '9789553119384', 1, 'P012', 'FIC-01', 'A009'),
-('24000098', 'Sahurda Sitha', '9789553119391', 1, 'P013', 'FIC-01', 'A001'),
-('24000099', 'Diya Suwanda', '9789553119407', 1, 'P014', 'FIC-01', 'A012'),
-('24000100', 'Maha Gama', '9789553119414', 1, 'P015', 'FIC-01', 'A001'),
-('24000101', 'Api Okkoma Eka Hamarai', '9789553119421', 1, 'P016', 'FIC-01', 'A013'),
-('24000102', 'Paduma', '9789553119438', 1, 'P017', 'FIC-01', 'A007'),
-('24000103', 'Handak Nethi Re', '9789553119445', 1, 'P018', 'POE-10', 'A010'),
-('24000104', 'Sathyaya Soya', '9789553119452', 1, 'P019', 'PHI-08', 'A002'),
-('24000105', 'Mahacharya', '9789553119469', 1, 'P020', 'BIO-04', 'A014'),
-('24000106', 'Senehasa Nihanda', '9789553119476', 1, 'P001', 'ROM-06', 'A004'),
-('24000107', 'Adaraneeya Kathawak', '9789553119483', 1, 'P002', 'ROM-06', 'A005'),
-('24000108', 'Kawluwa', '9789553119490', 1, 'P003', 'FIC-01', 'A008'),
-('24000109', 'Pawkarayo', '9789553119506', 1, 'P004', 'FIC-01', 'A002'),
-('24000110', 'Maha Wasanthaya', '9789553119513', 1, 'P005', 'FIC-01', 'A015'),
-('24000111', 'Prabuddha', '9789553119520', 1, 'P006', 'PHI-08', 'A010'),
-('24000112', 'Abhirahas Charikawa', '9789553119537', 1, 'P007', 'ADV-07', 'A007'),
-('24000113', 'Nimnayaka Husmaru', '9789553119544', 1, 'P008', 'POE-10', 'A010'),
-('24000114', 'Wasanthaye Mal', '9789553119551', 1, 'P009', 'FIC-01', 'A009'),
-('24000115', 'Sihina Lowak', '9789553119568', 1, 'P010', 'FIC-01', 'A012'),
-('24000116', 'Maha Ravana', '9789553119575', 1, 'P011', 'HIS-03', 'A014'),
-('24000117', 'Samudra Devi', '9789553119582', 1, 'P012', 'FIC-01', 'A007'),
-('24000118', 'Dharmasoka', '9789553119599', 1, 'P013', 'HIS-03', 'A001'),
-('24000119', 'Sanda Kinduri', '9789553119605', 1, 'P014', 'FIC-01', 'A004'),
-('24000120', 'Malsara', '9789553119612', 1, 'P015', 'FIC-01', 'A015');
+('24000002', 'Sherlock Holmes', '9789553118425', 1, 'P003', 'THR-01', 'A002'),
+('24000003', 'Pride and Prejudice', '9789553118426', 0, 'P003', 'ROM-01', 'A003'),
+('24000004', 'Harry Potter', '9789553118427', 1, 'P009', 'ADV-01', 'A004'),
+('24000005', '1984', '9789553118428', 0, 'P005', 'SCI-02', 'A005'),
+('24000006', 'Malagiya Aththo', '9789553118429', 1, 'P001', 'FIC-01', 'A006'),
+('24000007', 'One Hundred Years of Solitude', '9789553118430', 0, 'P008', 'FIC-01', 'A007'),
+('24000008', 'War and Peace', '9789553118431', 1, 'P007', 'HIS-01', 'A008'),
+('24000009', 'Murder on the Orient Express', '9789553118432', 1, 'P005', 'THR-01', 'A009'),
+('24000010', 'Norwegian Wood', '9789553118433', 0, 'P008', 'FIC-01', 'A010'),
+('24000011', 'Madol Duwa', '9789553118434', 1, 'P001', 'ADV-01', 'A001'),
+('24000012', 'The Hound of the Baskervilles', '9789553118435', 0, 'P003', 'THR-01', 'A002'),
+('24000013', 'Sense and Sensibility', '9789553118436', 1, 'P003', 'ROM-01', 'A003'),
+('24000014', 'Harry Potter and the Chamber of Secrets', '9789553118437', 0, 'P009', 'ADV-01', 'A004'),
+('24000015', 'Animal Farm', '9789553118438', 1, 'P005', 'FIC-01', 'A005'),
+('24000016', 'Viragaya', '9789553118439', 0, 'P001', 'FIC-01', 'A006'),
+('24000017', 'Love in the Time of Cholera', '9789553118440', 1, 'P008', 'ROM-01', 'A007'),
+('24000018', 'Anna Karenina', '9789553118441', 0, 'P007', 'FIC-01', 'A008'),
+('24000019', 'Death on the Nile', '9789553118442', 1, 'P005', 'THR-01', 'A009'),
+('24000020', 'Kafka on the Shore', '9789553118443', 0, 'P008', 'FIC-01', 'A010'),
+('24000021', 'Kaliyugaya', '9789553118444', 1, 'P001', 'FIC-01', 'A001'),
+('24000022', 'The Sign of Four', '9789553118445', 0, 'P003', 'THR-01', 'A002'),
+('24000023', 'Emma', '9789553118446', 1, 'P003', 'ROM-01', 'A003'),
+('24000024', 'Harry Potter and the Prisoner of Azkaban', '9789553118447', 0, 'P009', 'ADV-01', 'A004'),
+('24000025', 'Burmese Days', '9789553118448', 1, 'P005', 'HIS-01', 'A005'),
+('24000026', 'Yuganthaya', '9789553118449', 0, 'P001', 'FIC-01', 'A001'),
+('24000027', 'Chronicle of a Death Foretold', '9789553118450', 1, 'P008', 'FIC-01', 'A007'),
+('24000028', 'The Death of Ivan Ilyich', '9789553118451', 0, 'P007', 'FIC-01', 'A008'),
+('24000029', 'The ABC Murders', '9789553118452', 1, 'P005', 'THR-01', 'A009'),
+('24000030', '1Q84', '9789553118453', 0, 'P008', 'SCI-02', 'A010');
+
+-- Insert into book_borrow (30 examples)
+INSERT INTO book_borrow (id, book_id, member_id, borrowed_date, isReturned, returnDate, returnedDate) VALUES 
+('B00001', '24000001', 'M001', '2024-03-15', 1, '2024-03-29', '2024-03-27'),
+('B00002', '24000002', 'M002', '2024-03-16', 1, '2024-03-30', '2024-03-30'),
+('B00003', '24000003', 'M003', '2024-03-18', 0, '2024-04-01', NULL),
+('B00004', '24000004', 'M001', '2024-03-20', 1, '2024-04-03', '2024-04-02'),
+('B00005', '24000005', 'M005', '2024-03-21', 0, '2024-04-04', NULL),
+('B00006', '24000006', 'M006', '2024-03-22', 1, '2024-04-05', '2024-04-05'),
+('B00007', '24000007', 'M007', '2024-03-25', 0, '2024-04-08', NULL),
+('B00008', '24000008', 'M008', '2024-03-27', 1, '2024-04-10', '2024-04-09'),
+('B00009', '24000009', 'M009', '2024-03-29', 1, '2024-04-12', '2024-04-12'),
+('B00010', '24000010', 'M010', '2024-03-30', 0, '2024-04-13', NULL),
+('B00011', '24000011', 'M011', '2024-04-01', 1, '2024-04-15', '2024-04-14'),
+('B00012', '24000012', 'M012', '2024-04-02', 0, '2024-04-16', NULL),
+('B00013', '24000013', 'M013', '2024-04-03', 1, '2024-04-17', '2024-04-17'),
+('B00014', '24000014', 'M014', '2024-04-04', 0, '2024-04-18', NULL),
+('B00015', '24000015', 'M015', '2024-04-05', 1, '2024-04-19', '2024-04-18'),
+('B00016', '24000016', 'M016', '2024-04-06', 0, '2024-04-20', NULL),
+('B00017', '24000017', 'M017', '2024-04-07', 1, '2024-04-21', '2024-04-20'),
+('B00018', '24000018', 'M018', '2024-04-08', 0, '2024-04-22', NULL),
+('B00019', '24000019', 'M019', '2024-04-09', 1, '2024-04-23', '2024-04-22'),
+('B00020', '24000020', 'M020', '2024-04-10', 0, '2024-04-24', NULL),
+('B00021', '24000021', 'M021', '2024-04-11', 1, '2024-04-25', '2024-04-24'),
+('B00022', '24000022', 'M022', '2024-04-12', 0, '2024-04-26', NULL),
+('B00023', '24000023', 'M023', '2024-04-13', 1, '2024-04-27', '2024-04-26'),
+('B00024', '24000024', 'M024', '2024-04-14', 0, '2024-04-28', NULL),
+('B00025', '24000025', 'M025', '2024-04-15', 1, '2024-04-29', '2024-04-28'),
+('B00026', '24000026', 'M026', '2024-04-16', 0, '2024-04-30', NULL),
+('B00027', '24000027', 'M027', '2024-04-17', 1, '2024-05-01', '2024-04-30'),
+('B00028', '24000028', 'M028', '2024-04-18', 0, '2024-05-02', NULL),
+('B00029', '24000029', 'M029', '2024-04-19', 1, '2024-05-03', '2024-05-02'),
+('B00030', '24000030', 'M030', '2024-04-20', 0, '2024-05-04', NULL);
+
+-- Insert into fine (30 examples)
+INSERT INTO fine (id, amount, date_count, book_borrow_id, admin_id) VALUES 
+(1, 50.00, 0, 'B00001', 1),
+(2, 0.00, 0, 'B00002', 2),
+(3, 150.00, 3, 'B00003', 1),
+(4, 0.00, 0, 'B00004', 2),
+(5, 200.00, 4, 'B00005', 1),
+(6, 0.00, 0, 'B00006', 2),
+(7, 100.00, 2, 'B00007', 1),
+(8, 0.00, 0, 'B00008', 2),
+(9, 0.00, 0, 'B00009', 1),
+(10, 50.00, 1, 'B00010', 2),
+(11, 0.00, 0, 'B00011', 1),
+(12, 100.00, 2, 'B00012', 2),
+(13, 0.00, 0, 'B00013', 1),
+(14, 150.00, 3, 'B00014', 2),
+(15, 0.00, 0, 'B00015', 1),
+(16, 250.00, 5, 'B00016', 2),
+(17, 0.00, 0, 'B00017', 1),
+(18, 200.00, 4, 'B00018', 2),
+(19, 0.00, 0, 'B00019', 1),
+(20, 50.00, 1, 'B00020', 2),
+(21, 0.00, 0, 'B00021', 1),
+(22, 300.00, 6, 'B00022', 2),
+(23, 0.00, 0, 'B00023', 1),
+(24, 150.00, 3, 'B00024', 2),
+(25, 0.00, 0, 'B00025', 1),
+(26, 100.00, 2, 'B00026', 2),
+(27, 0.00, 0, 'B00027', 1),
+(28, 250.00, 5, 'B00028', 2),
+(29, 0.00, 0, 'B00029', 1),
+(30, 50.00, 1, 'B00030', 2);

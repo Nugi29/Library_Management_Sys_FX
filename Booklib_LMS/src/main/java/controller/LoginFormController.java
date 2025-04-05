@@ -48,6 +48,8 @@ public class LoginFormController {
             if (basicTextEncryptor.decrypt(admin.getPassword()).equals(txtPassword.getText())){
                 Stage stage = new Stage();
                 stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/dashboard.fxml"))));
+                stage.setTitle("Booklib LMS");
+                stage.setResizable(false);
                 stage.show();
 
                 txtPassword.getScene().getWindow().hide();

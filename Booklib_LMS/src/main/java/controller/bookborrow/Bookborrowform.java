@@ -6,9 +6,13 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.MapValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.stage.Stage;
 import model.Book;
 import model.BookBorrow;
 import model.Category;
@@ -129,6 +133,9 @@ public class Bookborrowform {
     @FXML
     private BookBorrowController bookBorrowController = new BookBorrowController();
 
+    @FXML
+    private bookborrowloginformController bookborrowloginformController = new bookborrowloginformController();
+
     // Maximum number of books a user can borrow at once
     private final int MAX_BOOKS_ALLOWED = 3;
 
@@ -232,7 +239,26 @@ public class Bookborrowform {
 
     @FXML
     void btnExitOnAction(ActionEvent event) {
-        showPendingBooks();
+        // Close the book borrow form and return to the main menu
+        try {
+            // Load the main menu FXML
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/bookborrowloginform.fxml"));
+            Parent root = loader.load();
+            Stage stage = (Stage) btnExit.getScene().getWindow();
+            stage.setScene(new Scene(root));
+
+
+
+
+        } catch (Exception e) {
+            System.err.println("Error loading main menu: " + e.getMessage());
+            showAlert(Alert.AlertType.ERROR, "Error",
+                    "Failed to load main menu",
+                    "An error occurred: " + e.getMessage());
+        }
+
+
+
     }
 
     @FXML
