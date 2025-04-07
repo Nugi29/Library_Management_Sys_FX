@@ -1,7 +1,7 @@
 # BookLib Library Management System
 
 <p align="center">
-  <img src="src/main/resources/img/logo.png" alt="BookLib Logo" width="200"/>
+  <img src="Booklib_LMS/src/main/resources/img/logo.png" alt="BookLib Logo" width="200"/>
 </p>
 
 ## 📚 Project Overview
@@ -20,7 +20,7 @@ BookLib Library Management System is a comprehensive JavaFX application develope
 🔐 Begin Your Journey
 </div>
 <p align="center">
-  <img src="src/main/resources/screenshots/login.png" alt="login" width="600"/>
+  <img src="Booklib_LMS/src/main/resources/screenshots/login.png" alt="login" width="600"/>
   <br>
   <em>The gateway to efficient library management starts here</em>
 </p>
