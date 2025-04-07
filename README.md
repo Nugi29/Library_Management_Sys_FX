@@ -6,7 +6,7 @@
 
 ## 📚 Project Overview
 
-BookLib Library Management System is a comprehensive JavaFX application developed for H.M. Sumathipala Liyanage's library in Rajagiriya. The system modernizes the traditional manual library operations, offering an efficient digital solution for book management, user registration, borrowing processes, and fine calculations.
+BookLib Library Management System is a comprehensive JavaFX application developed for library in Sri Lanka. The system modernizes the traditional manual library operations, offering an efficient digital solution for book management, user registration, borrowing processes, and fine calculations.
 
 ### Key Features
 
@@ -132,7 +132,7 @@ BookLib Library Management System is a comprehensive JavaFX application develope
 
 ## 📋 System Requirements
 
-- Java 17 or higher
+- Java 11 or higher
 - MySQL 8.0 or higher
 - Maven 3.8+
 
