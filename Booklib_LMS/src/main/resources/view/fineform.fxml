@@ -42,7 +42,7 @@
       <Label layoutX="408.0" layoutY="185.0" text="Late Books :-" />
       <Label fx:id="lblID" layoutX="241.0" layoutY="159.0" prefHeight="18.0" prefWidth="151.0" />
       <Label fx:id="lblName" layoutX="221.0" layoutY="184.0" prefHeight="18.0" prefWidth="164.0" />
-      <Label fx:id="lblOut" layoutX="539.0" layoutY="157.0" prefHeight="18.0" prefWidth="62.0" textFill="RED" />
+      <Label fx:id="lblOut" layoutX="539.0" layoutY="159.0" prefHeight="18.0" prefWidth="62.0" textFill="RED" />
       <Label fx:id="lblLate" layoutX="482.0" layoutY="184.0" prefHeight="18.0" prefWidth="76.0" />
       <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#9e9e9e" height="218.0" layoutX="41.0" layoutY="245.0" opacity="0.75" stroke="BLACK" strokeType="INSIDE" width="665.0" />
       <ScrollPane layoutX="63.0" layoutY="268.0" prefHeight="178.0" prefWidth="624.0">
